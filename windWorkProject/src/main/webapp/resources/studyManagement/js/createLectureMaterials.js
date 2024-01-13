@@ -34,6 +34,7 @@ function handleFileSelect(event) {
 }
 
 function handleFiles(files) {
+
     for (i = 0; i < files.length; i++) {
 
         let f = files[i];
@@ -69,7 +70,6 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-
 //저장
 $(document).on("click", "#save", function () {
     console.log(document.getElementById("postContent").value)
@@ -90,9 +90,10 @@ $(document).on("click", "#save", function () {
         dataType: 'json',
         cache: false,
         success: function (res) {
-            alert("저장에 성공하셨습니다.");
+
+            swal("", "저장에 성공하셨습니다.", "success");
         }, error: function (res) {
-            alert("오류 발생.\n관리자에게 문의해주세요.");
+            swal("", "오류 발생.\n관리자에게 문의해주세요.", "success");
         }
     });
 });

@@ -55,7 +55,7 @@ a {
 
 .lectureMaterialsDetail-title1 {
     display: flex;
-    width: 300px;
+    width: 350px;
     height: 50px;
     align-items: center;
 }
@@ -334,4 +334,7 @@ a {
     height: 31px;
     align-items: center;
 
+}
+.lectureMaterialsDetail-title1-h3{
+    display: flex;
 }

@@ -1,0 +1,646 @@
+.home-All {
+    width: 100%;
+    height: calc(100vh - 60px);
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+/* ------------------------------ 상단 영역 ------------------------------ */
+.home-upArea {
+    width: 100%;
+    height: 50%;
+
+    display: flex;
+}
+
+
+/* ---------- 상단1-프로필 영역 ---------- */
+.home-upArea-area1{
+    width: 25%;
+    height: 100%;
+
+    padding: 20px;
+    padding-left: 40px;
+    padding-top: 40px;  
+}
+.home-upArea-area1-profile{
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 20px;
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.profile-profile{
+    width: 100%;
+    /* padding: 20px 50px; */
+    max-width: 200px;
+    min-width: 200px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.profile-inform{
+    /* height: 30%; */
+    width: 100%;
+    /* padding: 20px 50px; */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.profile-inform-{
+    width: 50%;
+    max-width: 150px;
+}
+.profile-inform-mail{
+    width: 100%;
+    height: 50%;
+    min-width: 120px;
+    padding: 3px;
+    font-size: 15px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+.profile-inform-mail:hover{
+    cursor: pointer;
+}
+.profile-inform-chat{
+    width: 100%;
+    height: 50%;
+    min-width: 120px;
+    padding: 3px;
+    font-size: 15px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+.profile-inform-chat:hover{
+    cursor: pointer;
+}
+.profile-inform-chat-2{
+    font-weight: bold;
+    color: red;
+}
+.profile-inform-mail-2{
+    font-weight: bold;
+    color: red;
+}
+.profile-profile-1{
+    padding: 5px;
+}
+.profile-profile-1-img{
+    width: 90px;
+    height: 90px;
+    padding-bottom: 4px;
+
+    border-radius: 50%;
+}
+.profile-profile-2{
+    height: 15%;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+.profile-profile-3{
+    height: 15%;
+    display: flex;
+    align-items: center;
+}
+
+.commute-area{
+    padding-bottom: 4px;
+}
+.current-time{
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+}
+.commute-status{
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.commute-status > button{
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 6px;
+    padding: 0 10px;
+    margin: 5px 5px 3px 5px;
+}
+.commute-status > button:hover{
+    cursor: pointer;
+}
+.work-time{
+    text-align: center;
+    font-size: 14px;
+    color: grey;
+    height: 20px;
+}
+
+/* 출퇴근 비활성 상태일때 */
+.status-work[disabled] {
+    color: gray;
+    background-color: lightgray; 
+    cursor: not-allowed; 
+}
+
+.status-leave[disabled] {
+    color: gray;
+    background-color: lightgray; 
+    cursor: not-allowed; 
+}
+
+
+
+/* ---------- 상단2-캘린더 영역 ---------- */
+
+.home-upArea-area2 {
+    width: 50%;
+    height: 100%;
+
+    padding: 20px;
+    padding-top: 40px;
+}
+
+.home-upArea-area2-calendar {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 20px;
+}
+
+
+/* ---------- 상단3-지도 영역 ---------- */
+.home-upArea-area3 {
+    width: 25%;
+    height: 100%;
+
+    padding: 20px;
+    padding-right: 40px;
+    padding-top: 40px;
+
+}
+
+.home-upArea-area3-map {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 20px;
+}
+
+/* 일요일: 빨간색 */
+.fc-day-sun a {
+    color: rgb(255, 84, 84);
+}
+
+/* 토요일: 파란색 */
+.fc-day-sat a {
+    color: rgb(37, 106, 255);
+}
+
+/* 평일: 검은색 */
+.fc-day-mon a,
+.fc-day-tue a,
+.fc-day-wed a,
+.fc-day-thu a,
+.fc-day-fri a {
+    color: black;
+}
+
+/* ---------- 상단3-지도 영역 ---------- */
+.home-upArea-area3 {
+    width: 25%;
+    height: 100%;
+
+    padding: 20px;
+    padding-right: 40px;
+    padding-top: 40px;
+}
+
+.home-upArea-area3-map {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(190, 190, 190);
+    background-color: white;
+    color: rgb(85, 175, 130);
+    font-size: 13px;
+    font-weight: 800;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bus-search-bar {
+    width: 90%;
+    height: 100px;
+    margin-bottom: 10px;
+
+}
+
+.bus-search-bar-title {
+    padding-top: 10px;
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+.bus-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bus-search-input {
+    border-radius: 1px;
+    width: 90%;
+    height: 32px;
+    border: 1px solid #ddd;
+    border-right: none;
+}
+
+.bus-search-btn {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-radius: 1px;
+    height: 32px;
+    color: rgb(85, 175, 130);
+}
+
+.bus-search-input:focus {
+    outline: none;
+}
+
+.bus-search-output {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 99%;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    overflow: auto;
+}
+
+.bus-output-item {
+    width: 90%;
+    height: auto;
+    min-height: 100px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: white;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.bus-output-item-title {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    width: 90%;
+    height: 30px;
+    color: black;
+}
+
+.bus-output-item-title-div {
+    color: #838383;
+    font-weight: 100;
+    font-size: 13px;
+}
+
+.bus-output-item-title-div2 {
+    color: #838383;
+    margin-left: 10px;
+    font-weight: 100;
+    font-size: 13px;
+}
+
+.bus-output-item-title-text {
+    font-weight: 500;
+    padding: 0px;
+    margin: 0px;
+}
+
+.bus-output-item-body {
+    flex: 1;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bus-output-item-body-endtime {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    width: auto;
+
+}
+
+.bus-seat-time-box {
+    display: flex;
+}
+
+.bus-seat-time {
+    color: #838383;
+}
+
+.bus-seat-location {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 7px;
+    border: 1px solid #ddd;
+    color: #838383;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.bus-seat-bus {
+    font-size: 30px;
+    color: rgb(85, 175, 130);
+    font-size: medium;
+}
+
+.bus-search-bar-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bus-search-bar-title-sec {
+    padding-top: 10px;
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+.bus-output-item:hover {
+    border: 1px solid #ddd;
+}
+
+/* ------------------------------ 하단 영역 ------------------------------ */
+.home-downArea {
+    width: 100%;
+    height: 50%;
+    display: flex;
+}
+
+/* ---------- 하단1-날씨 영역 ---------- */
+.home-downArea-area1 {
+    width: 25%;
+    height: 100%;
+
+    padding: 20px;
+    padding-left: 40px;
+    padding-bottom: 40px;
+}
+
+.home-downArea-area1-weather {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.home-downArea-area1-weather-temperature{
+    display: flex;
+    flex-direction: column;
+}
+.weather-C{
+    display: flex;
+    flex-direction: row;
+}
+
+
+/* ---------- 하단2-번역 영역 ---------- */
+.home-downArea-area2 {
+    width: 25%;
+    height: 100%;
+
+    padding: 20px;
+    padding-bottom: 40px;
+}
+
+.home-downArea-area2-translate {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 20px;
+}
+
+.home-downArea-area2-translate textarea{
+    resize: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.home-downArea-area2-translate-up{
+    height: 14%;
+    font-size: 14px;
+
+    display: flex;
+    align-items: center;
+}
+
+.source-Language{
+    width: 43%;
+    text-align: center;
+    font-weight: bold;
+}
+.change-icon-div{
+    cursor: pointer;
+    width: 14%;
+    
+    display: flex;
+    justify-content: center
+}
+.target-Language{
+    width: 43%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.home-downArea-area2-translate-center{
+    height: 43%;
+    border-top: 1px solid rgb(190, 190, 190);
+    border-bottom: 1px solid rgb(190, 190, 190);
+}
+.home-downArea-area2-translate-center-1{
+    height: 80%;
+}
+.home-downArea-area2-translate-center-1 > textarea{
+    padding: 20px;
+}
+
+
+.home-downArea-area2-translate-center-2{
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+}
+.deleteText-area{
+    display: flex;
+    align-items: center;
+}
+.home-downArea-area2-translate-center-2-btn{
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(85, 175, 130);
+    color: white;
+}
+.home-downArea-area2-translate-center-2-btn:hover{
+    cursor: pointer;
+}
+
+
+.home-downArea-area2-translate-down{
+    height: 43%;
+    padding: 20px;
+}
+#translate-value{
+    background-color: white;
+    font-weight: bold;
+}
+.home-downArea-area2-translate-down > textarea{
+    cursor: default;
+}
+
+
+
+
+/* ---------- 하단3-gpt영역 ---------- */
+.home-downArea-area3 {
+    width: 50%;
+    height: 100%;
+
+    padding: 20px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+}
+
+.home-downArea-area3-chatgpt {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 20px;
+}
+
+.home-downArea-area1-weather-misseMunji{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 200px;
+    margin-top: 20px;
+}
+.munji1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 20px;
+    width: 90px;
+    font-size: 13px;
+}
+.munji2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 20px;
+    width: 90px;
+    font-size: 13px;
+}
+.textCheckBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 98%;
+    height: 98%;
+}
+
+.textCheckBox-title {
+    font-weight: 800;
+    font-size: 13px;
+    color: rgb(85, 175, 130);
+    width: 90%;
+    margin-top: 8px;
+}
+
+.comment {
+    resize: none;
+    flex: 1;
+    width: 90%;
+    border: none;
+    overflow: visible;
+}
+
+.comment2:focus,
+.comment:focus {
+    outline: none;
+}
+
+.comment2 {
+    resize: none;
+    flex: 1;
+    width: 90%;
+    border: none;
+    overflow: visible;
+}
+
+
+.text-check-btn-box {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-check-btn {
+    height: 40px;
+    border-radius: 10px;
+    width: 100px;
+    border: none;
+    background-color: rgb(85, 175, 130);
+    color: white;
+    font-size: 15px;
+}
+
+.text-check-btn:hover {
+    background-color: rgb(34, 109, 71);
+}

@@ -1,0 +1,183 @@
+.mailWriteForm{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.mailWriteForm-header{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 120px;
+    padding-left: 100px;
+}
+
+.mailWriteForm-table-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.mailWriteForm-table-th{
+    font-size: 15px;
+    font-weight: 400;
+    width: 150px;
+    height: 40px;
+    padding-bottom: 10px;
+}
+
+.mailWriteForm-table-td{
+    width: 900px;
+    padding-bottom: 10px;
+}
+
+.mailWriteForm-table-th-content{
+    vertical-align : top;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.mailWriteForm-table-input{
+    display: inline;
+    width: 900px;
+    border: none;
+}
+.mailWriteForm-table-input2{
+    width: 900px;
+    border: 1px solid #ddd;
+}
+
+.mail-email-list{
+    display: flex;
+    width: auto;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+}
+
+.mailWriteForm-table-input-div{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 900px;
+    flex-direction: row;
+    border: 1px solid #ddd;
+}
+
+.mail-email-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    font-size: 13px;
+    text-align: center;
+    height: 20px;
+    border: 1px solid #55AF82;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.mailWriteForm-file-upload-box {
+    width: 900px;
+    position: relative;
+    overflow-y: auto;
+    padding: 8px 0;
+    border: 2px dashed #ddd;
+    box-sizing: border-box;
+    max-height: 300px;
+    font-size: 13px;
+}
+
+.mailWriteForm-file-upload {
+    padding: 8px 0;
+    text-align: center;
+}
+
+.mailWriteForm-document-icon {
+    font-size: 18px;
+}
+
+.mailWriteForm-fileSelected {
+    display: none;
+}
+
+.mailWriteForm-file-upload-wrap {
+    display: flex;
+    width: 100%;
+    height: auto;
+    list-style-type: none;
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mailWriteForm-fileSelected-label {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.mail-th-flex{
+    display: flex;
+}
+
+.mail-star{
+    color: #FB9861;
+    padding: 3px 0 0 0;
+    margin: 0 0 0 10px;
+}
+
+.mail-btns{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mail-btnss{
+    display: flex;
+    width: 200px;
+    justify-content: space-between;
+}
+
+.form-button1 {
+    height: 40px;
+    width: 65px;
+    border: 1px solid rgb(85, 175, 130);
+    background-color: rgb(85, 175, 130);
+    color: white;
+    border-radius: 7px;
+    margin: 0 15px;
+}
+
+.form-button2 {
+    height: 40px;
+    width: 65px;
+    border: 1px solid rgb(85, 175, 130);
+    background-color: white;
+    color: rgb(85, 175, 130);
+    border-radius: 7px;
+    margin: 0 15px;
+}
+
+.closeButton {
+    margin-left: 20px;
+    color: rgb(85, 175, 130);
+}
+
+.strInput{
+    width: 100px;
+    height: 15px;
+    border: none;
+    background-color: none;
+}
+
+.strInput:focus {
+    border: none;
+    outline: none;
+  }
+
+  .mailCategorySeleted{
+    font-weight: 800;
+  }

@@ -24,13 +24,18 @@
     align-items: center;
     margin-left: 20px;
 }
-#calendar-icon{
+#todayBtn{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 20px;
-    width: 25px;
+    background-color: white;
+    border: 1px solid #d4d4d4;
+    color: #d4d4d4;
+    width: 50px;
     height: 25px;
+    justify-content: center;
+    font-size: 15px;
+}
+#calendar-title-btn{
+    padding-left: 20px;
 }
 .reservation-graph{
     display: flex;
@@ -57,17 +62,12 @@
     border: 1px solid #d4d4d4;
     max-width: 200px;
 }
-.graph-head-hour, .graph-body-hour{
-    width: 50px;
-    border: 1px solid #d4d4d4;
-    border-left: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.graph-body-title{
+    border-top: none;
 }
 
-.graph-body-hour{
-    width: 25px;
+.graph-head-hour{
+    width: 50px;
     border: 1px solid #d4d4d4;
     border-left: none;
     display: flex;
@@ -82,6 +82,7 @@
     align-items: center;
 }
 .reservation-status-title{
+    padding-top: 25px;
     width: 1255px;
     display: flex;
     flex-direction: row;
@@ -97,21 +98,46 @@
     font-size: 13px;
 }
 .reservation-status-table{
+    height: 120px;
     width: 1255px;
 }
 .reservation-status-table table{
     width: 100%;
 }
+.reservation-status-table table tbody{
+    display: block;
+    height: 150px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
+}
+.reservation-status-table table tbody::-webkit-scrollbar {
+    display: none; 
+}
 .reservation-status-table th{
     border-top: 1px solid #9e9e9e;
     border-bottom: 1px solid #9e9e9e;
 }
+.reservation-status-table thead, .reservation-status-table tbody tr {
+    display: table;
+    width: 100%;
+}
+.tableTd1{
+    width: 350px;
+}
+.tableTd2{
+    width: 480px;
+}
+.tableTd3{
+    width: 345px;
+}
+
 .graph-body{
-    height: 450px;
+    height: 400px;
 }
 .graph-body-list{
     width: 100%;
-    height: 450px;
+    height: 400px;
     -ms-overflow-style: none;
     scrollbar-width: none;
     overflow-y: scroll; 
@@ -136,9 +162,11 @@
     border-left: none;
     border-top: none;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    position: relative;
 }
+
 .graph-body-body{
     display: flex;
     flex-direction: row;
@@ -241,4 +269,41 @@
     background-color: rgb(224, 224, 224);
     border-style: solid;
     border-color: rgb(158, 158, 158);
+}
+.graph-body-confirm{
+    width: 25px;
+    height: 21px;
+    background-color: rgb(85, 175, 130);
+    opacity: 0.5;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    cursor: pointer;
+    position: absolute;
+    font-size: 9px;
+    color: white;
+}
+.graph-body-confirm2{
+    width: 25px;
+    height: 21px;
+    background-color: rgb(85, 175, 130);
+    opacity: 0.5;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    position: absolute;
+    font-size: 9px;
+    color: white;
+}
+.reservation_footer{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

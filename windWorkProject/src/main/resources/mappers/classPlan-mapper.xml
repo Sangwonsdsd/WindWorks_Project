@@ -185,6 +185,7 @@
 	        C_DATA_LIFE_TIME_NAME,
 	        TO_CHAR(C_DATA_DATE, 'YYYY-MM-DD') as "C_DATA_DATE",
 	        TO_CHAR(ADD_MONTHS(C_DATA_DATE, (C_DATA_LIFE_TIME_NAME *12)), 'YYYY-MM-DD') C_END_DATA_DATE,
+	        C_DATA_CATEGORY_NO,
 	        C_DATA_CATEGORY_NAME,
 	        REF_ENO,
 	        EMP_NAME,
@@ -253,6 +254,7 @@
 		        CD_LIKE_EMP as "REF_ENO",
 		        CD_LIKE_CDR as "C_DATA_NO",
 		        C_DATA_TITLE,
+		        C_DATA_CATEGORY_NO,
 		        C_DATA_CATEGORY_NAME,
 		        TO_CHAR(C_DATA_DATE, 'YYYY-MM-DD') as "C_DATA_DATE"
 		FROM CLASS_DATA_LIKE
@@ -439,6 +441,7 @@
 	<select id = "ajaxInutialSelectList" resultMap = "studentResult">
 		SELECT STUDENT_NO,
 		        CLASS_NO,
+		        CLASSROOM_CATAGORY_NAME,
 		        STUDENT_NAME,
 		        STUDENT_PHONE,
 		        STUDENT_EMAIL,
@@ -450,6 +453,8 @@
 		        STUDENT_ATTEMDAMCE,
 		        STUDENT_STATUS
 		FROM STUDENT
+		JOIN CLASS USING (CLASS_NO)
+		JOIN CLASSROOM USING (CLASSROOM_NO)
 		WHERE STUDENT_NAME BETWEEN NCHR(${minUnicodeNum}) AND NCHR(${maxUnicodeNum})
 			AND CLASS_NO = #{classNo}
 			AND STUDENT_STATUS = 'Y'
@@ -593,10 +598,16 @@
 		INSERT INTO CLASS_DATA_LIKE (CD_LIKE_NO,
 									 CD_LIKE_EMP, 
 									 CD_LIKE_CDR) 
-			VALUES (SEQ_CDLNO.NEXTVAL, #{empNo}, #{classNo});
+			VALUES (SEQ_CDLNO.NEXTVAL, #{empNo}, #{classDataNo})
 	</insert>
 	<delete id="ajaxLikeDeleteSelect">
 		DELETE FROM CLASS_DATA_LIKE
-			WHERE CD_LIKE_EMP = #{empNo} AND CD_LIKE_CDR = #{classNo}
+			WHERE CD_LIKE_EMP = #{empNo} AND CD_LIKE_CDR = #{classDataNo}
 	</delete>
+	
+	<update id = "ajaxLectureMovement">
+		UPDATE CLASS_DATA_ROOM
+			SET C_DATA_CATEGORY_NO = #{categoryNo}
+			WHERE C_DATA_NO = #{classDataNo}
+	</update>
 </mapper>

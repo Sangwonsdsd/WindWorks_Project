@@ -21,6 +21,7 @@
 		<result column="JOB_NAME" property="jobName"/>
 		<result column="DEPT_NAME" property="deptName"/>
 	</resultMap>
+	
 	<!-- 회원가입 쿼리문 -->
 	<insert id="insertEmployee">
 		INSERT INTO EMPLOYEE(
@@ -62,14 +63,36 @@
 	        EMP_ONLINE_STATUS,
 	        PROFILE_FILE_PATH,
 	        JOB_NAME,
-	        DEPT_NAME
+	        DEPT_NAME,
+	        EMP_WORK_STATUS
 		FROM EMPLOYEE
 		JOIN DEPARTMENT USING (DEPT_CODE)
 		JOIN JOB USING (JOB_CODE)
 		WHERE EMP_EMAIL = #{empEmail}
 	        AND EMP_STATUS = 1
-
 	</select>
+	
+	<!-- 온라인상태 변경 -->
+	<update id="updateOnline">
+      UPDATE EMPLOYEE
+         SET EMP_ONLINE_STATUS = 1
+       WHERE EMP_NO = #{empNo}
+   </update>
+   
+   <!-- 오프라인 상태 변경 -->
+	<update id="updateOffline">
+      UPDATE EMPLOYEE
+         SET EMP_ONLINE_STATUS = 0
+       WHERE EMP_NO = #{empNo}
+   </update>
+   
+   <!-- 자리비움 상태 변경 -->
+	<update id="updateAway">
+      UPDATE EMPLOYEE
+         SET EMP_ONLINE_STATUS = 2
+       WHERE EMP_NO = #{empNo}
+   </update>
+   
 	<!-- 총 사원수 조회 쿼리문 -->
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)
@@ -158,4 +181,112 @@
 			EMP_PHONE = #{empPhone}
 		WHERE EMP_NO = #{empNo}
 	</update>
+	
+	<!-- 이메일 전달 -->
+	<select id="emailEmpList" resultMap="employeeResult">
+		SELECT EMP_NO,
+				EMP_NAME,
+				EMP_EMAIL
+		FROM EMPLOYEE
+		WHERE EMP_STATUS = 1
+			AND EMP_NO != #{empNo}
+	</select>
+	
+	<!-- 아이디찾기 문자인증 -->
+	<insert id="insertSendSMS">
+		INSERT INTO SENDSMS
+				(
+				SMS_NO,
+				SMS_DATE,
+				SMS_NAME,
+				SMS_PHONE,
+				SMS_CONFIRM_NO
+				)
+		VALUES
+				(
+				SEQ_SMNO.NEXTVAL,
+				SYSDATE,
+				#{smsName},
+				#{smsPhone},
+				#{randomNumber}
+				)
+	</insert>
+	
+	<!-- 문자인증 완료시 아이디 찾기 -->
+	<select id="selectfindId" resultMap="employeeResult">
+		SELECT EMP_NO,
+			   EMP_NAME,
+			   EMP_EMAIL,
+			   EMP_PHONE
+		  FROM EMPLOYEE
+		 WHERE EMP_STATUS = 1 <!-- 재직인사람만 보여줄지.. -->
+		 AND EMP_PHONE = #{smsPhone}
+		 AND EMP_NAME = #{smsName}
+	</select>
+	
+	<!-- 문자인증번호 확인 -->
+	<select id="checkConfirmNo" resultType="_int">
+		SELECT COUNT(*)
+		  FROM SENDSMS
+	 	 WHERE SMS_CONFIRM_NO = #{smsConfirmNo}
+	 	   AND SMS_PHONE = #{smsPhone}
+	</select>
+	
+	<!-- 비밀번호 찾기 아이디 존재여부 확인 -->
+	<select id="checkEmail" resultType="_int">
+		SELECT COUNT(*)
+		  FROM EMPLOYEE
+		 WHERE EMP_EMAIL = #{empEmail}
+	</select>
+	
+	<!-- 비밀번호 찾기 문자인증 완료시 새로운 비밀번호 입력 -->
+	<update id="updateNewPwd">
+		UPDATE EMPLOYEE
+		   SET EMP_PWD = #{empPwd}
+		 WHERE EMP_EMAIL = #{empEmail}
+	</update>
+	
+	<update id="updatePassword">
+		UPDATE EMPLOYEE
+		SET EMP_PWD = #{newPassword}
+		WHERE EMP_NO = #{empNo}
+	</update>
+
+	<!-- 조직도차트 : dept 리스트 -->
+	<select id="selectDeptList" resultMap="employeeResult">
+		SELECT DEPT_CODE, DEPT_NAME
+		FROM DEPARTMENT
+		ORDER BY DEPT_CODE
+	</select>
+	
+	<!-- 조직도차트 : job 리스트 -->
+	<select id="selectJobList" resultMap="employeeResult">
+		SELECT EMP_NO, EMP_NAME, JOB_NAME
+		FROM EMPLOYEE
+		JOIN JOB USING(JOB_CODE)
+		WHERE EMP_STATUS = 1 
+			AND DEPT_CODE = #{deptCode}
+	</select>
+	
+	<!-- 출근상태로 변경 -->
+	<update id="statusWork">
+		UPDATE EMPLOYEE
+         SET EMP_WORK_STATUS = 1
+		WHERE EMP_NO = #{empNo}
+	</update>
+	
+	<!-- 퇴근상태로 변경 -->
+	<update id="statusLeave">
+		UPDATE EMPLOYEE
+         SET EMP_WORK_STATUS = 0
+		WHERE EMP_NO = #{empNo}
+	</update>
+	
+	<!-- 출퇴근상태 확인 -->
+	<select id="selectStatus" resultType="_int">
+		SELECT EMP_WORK_STATUS
+		FROM EMPLOYEE
+		WHERE EMP_NO = #{empNo}
+	</select>
+	
 </mapper>

@@ -498,12 +498,6 @@ function drowstudentManagementView(res) {
         + '</ul>';
 
     str += '<div class="student-popup">'
-        + '<div class="student-popup-optional">'
-        + '<a class="student-btn-tool">'
-        + '<span class="student-btn-tool-icon"><ion-icon name="funnel-outline"></ion-icon></span>'
-        + '<span>필터</span>'
-        + '</a>'
-        + '</div>'
         + '<div class="student-dataTables-length">'
         + '<label>'
         + boardLimitStr
@@ -555,6 +549,110 @@ function drowstudentManagementView(res) {
 
 }
 
+//학생 검색 뷰
+function drowstudentManagementinutialView(res, minUnicodeNum, maxUnicodeNum) {
+    const studentList = res.studentList;
+    const boardLimit = res.boardLimit;
+    const pi = res.pi;
+    const listCount = res.listCount;
+    const classroomList = res.classroomList;
+    let classNo = 0;
+    if (res.classNo === 0) {
+        classNo = res.studentList[0].classNo;
+    } else {
+        classNo = res.classNo;
+    }
+
+    let classroomStr = ""
+    for (let classroom of classroomList) {
+        classroomStr += '<option value="">' + classroom.classroomCategoryName + '</option>'
+    }
+    let studentStr = ""
+    if (listCount > 0) {
+        for (let student of studentList) {
+            let studentProfilePath = student.studentProfilePath ? student.studentProfilePath : "resources/uploadFiles/student/2023121414253910365.png";
+            let studentAddress = student.studentAddress ? student.studentAddress : "";
+            let studentBirth = student.studentBirth ? student.studentBirth : "";
+            let studentGender = student.studentGender ? student.studentGender : "";
+            let studentMemo = student.studentMemo ? student.studentMemo : "";
+            let classroomName = student.classroomName ? student.classroomName : "";
+            let studentAttemdemce = student.studentAttemdemce ? student.studentAttemdemce : "";
+            studentStr += '<tr class="student-tbody-tr">'
+                + '<td style="padding: 8px 0px 8px 24px; width : 50px;">'
+                + '<input class="student-tbody-tr-checkbox" value = "' + student.studentNo + '" type="checkbox" name="studentNo" id="">'
+                + '</td>'
+                + '<td class = "student-tbody-td-studentName" onclick = "updateStudent(' + student.studentNo + ')" style="padding: 8px 4px; width : 80px;">' + '<img class="student-info-profile-img" src="' + studentProfilePath + '">' + student.studentName + '</td>'
+                + '<td style="padding: 8px 4px; width : 100px;">' + student.studentPhone + '</td>'
+                + '<td style="padding: 8px 4px; width : 130px;">' + student.studentEmail + '</td>'
+                + '<td style="padding: 8px 4px;">' + studentAddress + '</td>'
+                + '<td style="padding: 8px 4px; width : 100px;">' + studentBirth + '</td>'
+                + '<td style="padding: 8px 4px; width : 50px;">' + studentGender + '</td>'
+                + '<td style="padding: 8px 4px; width : 150px;">' + studentMemo + '</td>'
+                + '<td style="padding: 8px 4px; width : 80px;">' + classroomName + '</td>'
+                + '<td style="padding: 8px 4px; width : 50px;">' + studentAttemdemce + '</td>'
+                + '</tr>'
+        }
+    } else {
+        studentStr += '<tr class="student-tbody-tr">'
+            + '<td colspan = "10" style="padding: 8px 0px 8px 24px; width : 50px;">'
+            + '검색 결과가 없습니다.'
+            + '</td>'
+            + '</tr>'
+    }
+
+    let pageStr = "";
+    if (pi.currentPage === 1) {
+        pageStr += '<li class="page-item disabled"><a class="page-link"><</a></li>'
+    } else {
+        pageStr += '<li class="page-item" onclick = "ajaxStudentSelectInutialManagement(' + minUnicodeNum + ', ' + maxUnicodeNum + ', ' + classNo + ', ' + (pi.currentPage - 1) + ', drowstudentManagementView ,' + boardLimit + ')"><a class="page-link"><</a></li>'
+    }
+
+    for (i = pi.startPage; i <= pi.endPage; i++) {
+        pageStr += '<li class="page-item" onclick = "ajaxStudentSelectInutialManagement(' + minUnicodeNum + ', ' + maxUnicodeNum + ', ' + classNo + ', ' + i + ', drowstudentManagementView ,' + boardLimit + ')"><a class="page-link page-color">' + i + '</a></li>'
+    }
+    if (pi.currentPage === pi.maxPage) {
+        pageStr += '<li class="page-item disabled"><a class="page-link page-color" href="#">></a></li>'
+    } else {
+        pageStr += '<li class="page-item" onclick = "ajaxStudentSelectInutialManagement(' + minUnicodeNum + ', ' + maxUnicodeNum + ', ' + classNo + ', ' + (pi.currentPage + 1) + ', drowstudentManagementView ,' + boardLimit + ')"><a class="page-link page-color">></a></li>'
+    }
+    let str = "";
+
+    str += '<table class="student-table">'
+        + '<thead>'
+        + '<tr class="student-thead-tr">'
+        + '<th style="padding-left: 24px;"><input class="student-tbody-tr-allcheckbox" onclick = "studentAllClick(this);" type="checkbox"></th>'
+        + '<th style="padding: 0px 4px;">이름</th>'
+        + '<th style="padding: 0px 4px;">휴대폰</th>'
+        + '<th style="padding: 0px 4px;">이메일</th>'
+        + '<th style="padding: 0px 4px;">주소</th>'
+        + '<th style="padding: 0px 4px;">생년월일</th>'
+        + '<th style="padding: 0px 4px;">성별</th>'
+        + '<th style="padding: 0px 4px;">메모</th>'
+        + '<th>'
+        + '<select name="" id="" size="1" class="student-dataTables-length-select">'
+        + '<option selected>강의실</option>'
+        + classroomStr
+        + '</select>'
+        + '</th>'
+        + '<th style="padding: 0px 4px;">출결</th>'
+        + '</tr>'
+        + '</thead>'
+        + '<tbody class="student-tbody">'
+        + studentStr
+        + '</tbody>'
+        + '</table>'
+        + '</div>';
+
+    let page = '<ul class="pagination">'
+        + pageStr
+        + '</ul>'
+
+
+
+    document.querySelector(".student-header-table-container").innerHTML = str;
+    document.querySelector(".student-pagenation").innerHTML = page;
+}
+
 function deleteStudent() {
     const checkBoxList = document.getElementsByClassName('student-tbody-tr-checkbox');
     let checkBoxtrueList = new Array();
@@ -595,7 +693,7 @@ function detailStudentInfoAdd() {
     let studentPhone = document.querySelector("#speedInputStudentPhone").value;
 
     if (!classNo || !studentName || !studentEmail || !studentPhone) {
-        alert("빈칸을 전부 입력해주세요");
+        swal("", "빈칸을 전부 입력해주세요", "success");
     } else {
         location.href = "detailAddStudent.stm?classNo=" + classNo + "&studentName=" + studentName + "&studentEmail=" + studentEmail + "&studentPhone=" + studentPhone;
     }
@@ -605,13 +703,14 @@ function updateStudent(studentNo) {
     location.href = "updateStudentForm.stm?studentNo=" + studentNo;
 }
 
+
 function initialconsonantSearh(minUnicodeNum, maxUnicodeNum, liitem, classNo, boardLimit) {
     let listItems = document.querySelectorAll("#student-ul li");
     ajaxStudentSelectInutialManagement(minUnicodeNum, maxUnicodeNum, classNo, 1, drowstudentManagementView, boardLimit);
 
     liitem.classList.add("student-on");
     listItems.forEach(function (otherItem) {
-        if (otherItem !== item) {
+        if (otherItem !== liitem) {
             otherItem.classList.remove("student-on");
         }
     });

@@ -1,0 +1,209 @@
+.calendar-bg{
+	width : 100%;
+	height : auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#calendar{
+	display: flex;
+    width: 1500px;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+/* 일요일: 빨간색 */
+.fc-day-sun a{
+    color: rgb(255, 84, 84);
+}
+  
+/* 토요일: 파란색 */
+.fc-day-sat a{
+    color: rgb(37, 106, 255);
+}
+
+/* 평일: 검은색 */
+.fc-day-mon a,.fc-day-tue a,.fc-day-wed a,.fc-day-thu a,.fc-day-fri a{
+	color: black;
+}
+
+/* 안먹음 */
+.fc .fc-button{
+	border-radius: 10px;
+	background: white;
+}
+
+/* 모달창 */
+#modal-title-id{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#modal-header-id{
+    display: flex;
+    align-items: center;
+    border-bottom: none;
+    margin: 20px 30px 0 20px;
+}
+
+#modal-body-id{
+    height: auto;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.modal-table{
+    height: 150px;
+    font-size: 15px;
+}
+
+#modal-dialog-id{
+    width: 605px;
+}
+
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-controllBtn{
+    margin: 10px;
+}
+
+.modal-table tr th{
+	display: flex;
+    justify-content: flex-start;
+    width: 105px;
+    height: 35px;
+    align-items: center;
+    margin-left: 20px;
+}
+
+#modal-body-id tr{
+    height: auto;
+    display: flex;
+    align-items: center;
+}
+
+.form-button2{
+    height: 25px;
+    width: 45px;
+    border: 1px solid #9e9e9e;
+    background-color: white;
+    color: #9e9e9e;
+    font-size: 14px;
+}
+
+.form-button3{
+    height: 25px;
+    width: 45px;
+    border: 1px solid rgb(85, 175, 130);
+    color: rgb(85, 175, 130);
+    margin-left: 190px;
+    margin-right: 10px;
+    font-size: 14px;
+    background-color: white;
+}
+
+#close-btn2{
+    margin: 0px;
+    display: none;
+}
+
+#close-btn{
+    margin: 0px;
+    display: none;
+}
+
+#calendarCategory{
+	display: flex;
+    align-items: center;
+}
+
+#calendarCategory1{
+	display: flex;
+    align-items: center;
+}
+
+#myCalendar, #teamCalendar, #allCalendar{
+	margin-right: 7px;
+}
+
+#myCalendar1, #teamCalendar1, #allCalendar1{
+	margin-right: 7px;
+}
+
+.modal-input{
+    width: 415px;
+    border-style: solid;
+    border: 1px solid rgb(158, 158, 158);
+}
+
+.modal-input:focus{
+    outline: none;
+}
+
+.mycircle{
+	width : 10px;
+	height : 10px;
+	border-radius: 50%;
+	background-color: rgb(119, 187, 243);
+	margin: 0 60px 0 10px;
+}
+
+.teamcircle{
+	width : 10px;
+	height : 10px;
+	border-radius: 50%;
+	background-color: rgb(194, 124, 221);
+	margin: 0 60px 0 10px;
+}
+
+.allcircle{
+	width : 10px;
+	height : 10px;
+	border-radius: 50%;
+	background-color: rgb(255, 217, 135);
+	margin: 0 0 0 10px;
+}
+
+.modal-input input:focus{
+	outline: none;
+}
+
+.modal-input2{
+    width: 415px;
+    height: 150px;
+    border-style: solid;
+    border: 1px solid rgb(158, 158, 158);
+    resize: none;
+}
+
+.modal-input2:focus{
+	outline: none;
+}
+
+#modal-table-th-date{
+    height: 60px;
+}
+
+.modal-input-date{
+	border-style: solid;
+    border: 1px solid rgb(158, 158, 158);
+}
+
+#deleteBtn{
+    margin: 5px 0 0 495px
+}
+
+#deleteSchedule{
+    height: 25px;
+    width: 45px;
+    border: 1px solid rgb(233, 65, 65);
+    color: rgb(233, 65, 65);
+    font-size: 14px;
+    background-color: white;
+}

@@ -37,13 +37,14 @@ public class NoticeDao {
 	public Notice selectNotice(SqlSessionTemplate sqlSession, int noticeNo) {
 		return sqlSession.selectOne("noticeMapper.selectNotice", noticeNo);
 	}
+	public ArrayList<NoticeAttachment> selectNoticeAtt(SqlSessionTemplate sqlSession, int noticeNo) {
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeAtt", noticeNo);
+	}
 	
-	// 공지사항 작성 result1
+	// 공지사항 작성
 	public int insertNotice(SqlSessionTemplate sqlSession, Notice n) {
 		return sqlSession.insert("noticeMapper.insertNotice", n);
 	}
-	
-	// 공지사항 작성 result2
 	public int insertNoticeAttachment(SqlSessionTemplate sqlSession, NoticeAttachment na) {
 		return sqlSession.insert("noticeMapper.insertNoticeAttachment", na);
 	}
@@ -51,6 +52,12 @@ public class NoticeDao {
 	// 공지사항 수정
 	public int updateNotice(SqlSessionTemplate sqlSession, Notice n) {
 		return sqlSession.update("noticeMapper.updateNotice", n);
+	}
+	public int deleteNoticeAtt(SqlSessionTemplate sqlSession, int fn) {
+		return sqlSession.delete("noticeMapper.deleteNoticeAtt", fn);
+	}
+	public int updateNoticeAtt(SqlSessionTemplate sqlSession, NoticeAttachment na) {
+		return sqlSession.insert("noticeMapper.updateNoticeAtt", na);
 	}
 	
 	// 공지사항 삭제
@@ -91,6 +98,6 @@ public class NoticeDao {
 	// 공지사항 대댓글 삭제
 	public int deleteChildReply(SqlSessionTemplate sqlSession, NoticeReply nr) {
 		return sqlSession.update("noticeMapper.deleteChildReply", nr);
-	}
+	}	
 
 }

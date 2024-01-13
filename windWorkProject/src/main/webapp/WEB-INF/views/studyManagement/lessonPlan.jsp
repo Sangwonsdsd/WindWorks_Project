@@ -5,7 +5,7 @@
 
     <head>
       <meta charset="UTF-8">
-      <title>lessonPlan</title>
+      <title>Lesson Plan</title>
       <!-- 부트스트랩 -->
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -19,6 +19,8 @@
       <!--js-->
       <script src="resources/studyManagement/js/lessonPlan.js"></script>
       <script src="resources/studyManagement/js/studentManagement.js"></script>
+      <!--alert-->
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
 
     <body onload="lessonOnload(), lessonPlanView(1, drowlessonPlanView)">

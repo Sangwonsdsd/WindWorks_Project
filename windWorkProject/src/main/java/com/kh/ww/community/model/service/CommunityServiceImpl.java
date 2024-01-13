@@ -145,6 +145,16 @@ public class CommunityServiceImpl implements CommunityService{
 		return communityDao.deleteBoardAtt(sqlSession, fno);
 	}
 
+	@Override
+	public int comBoardUpdate(CommunityBoard cb) {
+		return communityDao.comBoardUpdate(sqlSession, cb);
+	}
+
+	@Override
+	public int comBoardAttUpdate(CommunityAttachment ca) {
+		return communityDao.comBoardAttUpdate(sqlSession, ca);
+	}
+
 
 
 

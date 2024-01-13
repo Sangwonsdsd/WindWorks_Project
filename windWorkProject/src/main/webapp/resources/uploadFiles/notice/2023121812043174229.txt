@@ -1,0 +1,45 @@
+/* ----- 답글 수정 버튼 클릭 ----- */
+					// 수정 버튼 클릭
+					function noticeChildReplyUpdate(num) {
+					    let replyUpdateBtn = document.querySelector('#appendReplyUpdate' + num);
+					    let noticeReplyContent = document.getElementById('parent-reply' + num);
+					    
+					    // 현재 보여지는 수정창이 없거나, 다른 댓글을 클릭했을 경우
+					    if (currentReplyId !== num || !replyUpdateBtn.style.display || replyUpdateBtn.style.display === 'none') {
+					        // 현재 보여지고 있는 수정창을 숨깁니다.
+					        hideCurrentReplyUpdate();
+					        // 클릭한 댓글의 수정창을 보여줍니다.
+					        replyUpdateBtn.style.display = 'block';
+					        // 현재 클릭한 댓글의 ID를 추적합니다.
+					        currentReplyId = num;
+					    } else {
+					        // 현재 클릭한 댓글의 수정창을 숨깁니다.
+					        hideCurrentReplyUpdate();
+					        // ID 추적 변수를 초기화합니다.
+					        currentReplyId = null;
+					    }
+
+					    // 댓글 내용의 화면 표시 여부를 변경합니다.
+					    if (noticeReplyContent) {
+					        if (noticeReplyContent.style.display === 'none') {
+					            noticeReplyContent.style.display = 'block';
+					        } else {
+					            noticeReplyContent.style.display = 'none';
+					        }
+					    }
+					}
+
+					// 현재 보여지는 수정창을 숨기는 함수
+					function hideCurrentReplyUpdate() {
+					    if (currentReplyId !== null) {
+					        let currentReplyUpdateBtn = document.querySelector('#appendReplyUpdate' + currentReplyId);
+					        if (currentReplyUpdateBtn) {
+					            currentReplyUpdateBtn.style.display = 'none';
+					        }
+
+					        let currentNoticeReplyContent = document.getElementById('parent-reply' + currentReplyId);
+					        if (currentNoticeReplyContent) {
+					            currentNoticeReplyContent.style.display = 'block';
+					        }
+					    }
+					}

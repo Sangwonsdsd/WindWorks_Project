@@ -64,5 +64,10 @@ public interface CommunityService {
 	ArrayList<CommunityAttachment> selectBoardAttList(int bno);
 	// 첨부파일 삭제
 	int deleteBoardAtt(int fno);
+	// 게시글 수정
+	int comBoardUpdate(CommunityBoard cb);
+	// 첨부파일 변경
+	int comBoardAttUpdate(CommunityAttachment ca);
+	
 
 }

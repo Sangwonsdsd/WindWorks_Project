@@ -104,7 +104,6 @@ public class CommunityDao {
 	}
 	
 	public int comBoardDelete(SqlSessionTemplate sqlSession, int bno) {
-		System.out.println(bno);
 		return sqlSession.update("communityMapper.comBoardDelete", bno);
 	}
 
@@ -116,7 +115,13 @@ public class CommunityDao {
 		return sqlSession.delete("communityMapper.deleteBoardAtt", fno);
 	}
 	
+	public int comBoardUpdate(SqlSessionTemplate sqlSession, CommunityBoard cb) {
+		return sqlSession.update("communityMapper.comBoardUpdate", cb);
+	}
 	
+	public int comBoardAttUpdate(SqlSessionTemplate sqlSession, CommunityAttachment ca) {
+		return sqlSession.insert("communityMapper.comBoardAttUpdate", ca);
+	}
 	
 	
 	

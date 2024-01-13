@@ -10,8 +10,11 @@
 
   	<typeAliases>
   		<typeAlias type="com.kh.ww.employee.model.vo.Employee" alias="Employee"/>
+  		<typeAlias type="com.kh.ww.employee.model.vo.Department" alias="Department"/>
+  		<typeAlias type="com.kh.ww.employee.model.vo.SendSMS" alias="SendSMS"/>
 
   		<typeAlias type="com.kh.ww.notice.model.vo.Notice" alias="Notice"/>
+  		<typeAlias type="com.kh.ww.notice.model.vo.NoticeAttachment" alias="NoticeAttachment"/>
   		<typeAlias type="com.kh.ww.notice.model.vo.NoticeReply" alias="NoticeReply"/>
 
   		<typeAlias type="com.kh.ww.community.model.vo.Community" alias="Community"/>
@@ -26,6 +29,15 @@
   		<typeAlias type="com.kh.ww.studyManagement.model.vo.ClassAttachment" alias="ClassAttachment"/>
   		<typeAlias type="com.kh.ww.studyManagement.model.vo.Student" alias="Student"/>
   		<typeAlias type="com.kh.ww.studyManagement.model.vo.Category" alias="Category"/>
+  		
+  		<typeAlias type="com.kh.ww.calendar.model.vo.Calendar" alias="Calendar"/>
+
+  		<typeAlias type="com.kh.ww.chatting.model.vo.ChattingGroup" alias="ChattingGroup"/>
+  		<typeAlias type="com.kh.ww.chatting.model.vo.ChattingMessage" alias="ChattingMessage"/>
+  		<typeAlias type="com.kh.ww.chatting.model.vo.ChattingRoom" alias="ChattingRoom"/>
+  		
+		<typeAlias type="com.kh.ww.mail.model.vo.EmailAttachment" alias="EmailAttachment"/>
+		<typeAlias type="com.kh.ww.mail.model.vo.Email" alias="Email"/>
   	</typeAliases>
   	
   	<mappers>
@@ -34,6 +46,9 @@
 		<mapper resource="/mappers/community-mapper.xml"/>
 		<mapper resource="/mappers/classPlan-mapper.xml"/>
 		<mapper resource="/mappers/reservation-mapper.xml"/>
+		<mapper resource="/mappers/calendar-mapper.xml"/>
+		<mapper resource="/mappers/chatting-mapper.xml"/>
+		<mapper resource="/mappers/email-mapper.xml"/>
   	</mappers>
   	
  </configuration>

@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="emailMapper">
+ 
+	 <resultMap type="EmailAttachment" id="emailAttachmentResult">
+ 		<result column="EMAIL_FILE_NO" property="emailFileNo" />
+ 		<result column="EMAIL_ORIGIN_NAME" property="emailOriginName" />
+ 		<result column="EMAIL_CHANGE_NAME" property="emailChangeName" />
+ 		<result column="EMAIL_FILE_PATH" property="emailFilePath" />
+ 		<result column="EMAIL_UPLOAD_DATE" property="emailUploadDate" />
+ 		<result column="EMAIL_SEND_NO" property="emailSendNo" />
+ 		<result column="EMAIL_RECEIVE_NO" property="emailReceiveNo" />
+ 		<result column="EMAIL_NO" property="emailNo" />
+	</resultMap>
+	
+	<resultMap type="Email" id="emailResult">
+ 		<result column="EMAIL_NO" property="emailNo" />
+ 		<result column="EMP_NO" property="empNo" />
+ 		<result column="EMP_MAIL" property="empEmail" />
+ 		<result column="EMP_NAME" property="empName" />
+ 		<result column="SENDER_EMP_NAME" property="empSenderName" />
+ 		<result column="EMAIL_SENDER_NO" property="emailSenderNo" />
+ 		<result column="EMAIL_SENDER_EMAIL" property="emailSenderEmail" />
+ 		<result column="EMAIL_TITLE" property="emailTitle" />
+ 		<result column="EMAIL_CONTENT" property="emailContent" />
+ 		<result column="DEPT_NAME" property="empDeptName" />
+ 		<result column="JOB_NAME" property="empJobName" />
+ 		<result column="EMP_DEPT_NAME" property="emailSenderDept" />
+ 		<result column="EMP_JOB_NAME" property="emailSenderJob" />
+ 		<result column="EMAIL_DATE" property="emailDate" />
+ 		<result column="EMAIL_TIME" property="emailTime" />
+ 		<result column="EMAIL_LEVEL" property="emailLevel" />
+ 		<result column="EMAIL_READ_STATUS" property="emailReadStatus" />
+ 		<result column="EMAIL_RECEIVE_STATUS" property="emailReceiveStatus" />
+ 		<result column="EMAIL_FILE_LIST" property="emailFileList" />
+	</resultMap>
+	
+	<select id = "selectSender" resultType = "_int">
+		SELECT EMP_NO
+		FROM EMPLOYEE
+		WHERE EMP_EMAIL = #{empEmail}
+	</select>
+	
+	<insert id="sendEmail">
+		INSERT INTO EMAIL(EMAIL_NO, 
+                    EMP_NO, 
+                    EMAIL_SENDER_NO, 
+                    EMAIL_TITLE, 
+                    EMAIL_CONTENT, 
+                    EMAIL_LEVEL,
+                    EMAIL_FILE_LIST)
+        VALUES(SEQ_EMNO.NEXTVAL, 
+                #{empNo}, 
+                #{emailSenderNo}, 
+                #{emailTitle}, 
+                #{emailContent}, 
+                #{emailLevel},
+                #{emailFileList})
+	</insert>
+	
+	<insert id="insertAttachmentEmail" useGeneratedKeys="false">
+		INSERT INTO EMAIL_ATTACHMENT(EMAIL_FILE_NO,
+										EMAIL_ORIGIN_NAME,
+										EMAIL_CHANGE_NAME,
+										EMAIL_FILE_PATH)
+				VALUES(SEQ_EANO.NEXTVAL,
+						#{emailOriginName},
+						#{emailChangeName},
+						#{emailFilePath})
+						
+		<selectKey keyProperty="emailNo" resultType="string" order="AFTER">
+			SELECT SEQ_EANO.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<select id="mailListCount" resultType = "_int">
+		SELECT COUNT(*)
+		FROM EMAIL
+		WHERE EMP_NO = #{empNo} AND (EMAIL_LEVEL = 1 OR EMAIL_LEVEL = 2) AND EMAIL_RECEIVE_STATUS = 'Y'
+	</select>
+	
+	<select id="mailgetSelectList" resultMap = "emailResult">
+		SELECT EMAIL_NO,
+		        em.EMP_NO,
+		        em.EMAIL_SENDER_NO,
+		        e.EMP_EMAIL EMAIL_SENDER_EMAIL,
+		        EMAIL_TITLE,
+		        EMAIL_CONTENT,
+		        EMAIL_DATE,
+		        TO_CHAR(EMAIL_TIME, 'YYYY/MM/DD HH24:MI') AS EMAIL_TIME,
+		        EMAIL_LEVEL,
+		        EMAIL_READ_STATUS,
+		        EMAIL_RECEIVE_STATUS,
+		        EMAIL_FILE_LIST
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND (EMAIL_LEVEL = 1 OR EMAIL_LEVEL = 2) AND EMAIL_RECEIVE_STATUS = 'Y'
+		ORDER BY EMAIL_NO DESC
+	</select>
+	
+	<select id="sendMailListCount" resultType = "_int">
+		SELECT COUNT(*)
+		FROM EMAIL
+		WHERE EMP_NO = #{empNo} AND EMAIL_LEVEL = 0 AND EMAIL_RECEIVE_STATUS = 'Y'
+	</select>
+	
+	<select id="mailSendSelectList" resultMap = "emailResult">
+		SELECT EMAIL_NO,
+		        em.EMP_NO,
+		        em.EMAIL_SENDER_NO,
+		        e.EMP_EMAIL EMAIL_SENDER_EMAIL,
+		        EMAIL_TITLE,
+		        EMAIL_CONTENT,
+		        EMAIL_DATE,
+		        TO_CHAR(EMAIL_TIME, 'YYYY/MM/DD HH24:MI') AS EMAIL_TIME,
+		        EMAIL_LEVEL,
+		        EMAIL_READ_STATUS,
+		        EMAIL_RECEIVE_STATUS,
+		        EMAIL_FILE_LIST
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON(em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND EMAIL_LEVEL = 0 AND EMAIL_RECEIVE_STATUS = 'Y'
+		ORDER BY EMAIL_NO DESC
+	</select>
+	
+	<select id="sendDeleteMailListCount" resultType = "_int">
+		SELECT COUNT(*)
+		FROM EMAIL
+		WHERE EMP_NO = #{empNo}   AND  EMAIL_RECEIVE_STATUS = 'N'
+	</select>
+	
+	<select id="mailSendDeleteSelectList" resultMap = "emailResult">
+		SELECT EMAIL_NO,
+		        em.EMP_NO,
+		        em.EMAIL_SENDER_NO,
+		        e.EMP_EMAIL EMAIL_SENDER_EMAIL,
+		        EMAIL_TITLE,
+		        EMAIL_CONTENT,
+		        EMAIL_DATE,
+		        TO_CHAR(EMAIL_TIME, 'YYYY/MM/DD HH24:MI') AS EMAIL_TIME,
+		        EMAIL_LEVEL,
+		        EMAIL_READ_STATUS,
+		        EMAIL_RECEIVE_STATUS,
+		        EMAIL_FILE_LIST
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND EMAIL_RECEIVE_STATUS = 'N'
+		ORDER BY EMAIL_NO DESC
+	</select>
+	
+	<select id = "mailreadListCount" resultType = "_int">
+		SELECT COUNT(*)
+		FROM EMAIL
+		WHERE EMP_NO = #{empNo}  
+				AND (EMAIL_LEVEL = 1 OR EMAIL_LEVEL = 2)  
+				AND EMAIL_RECEIVE_STATUS = 'Y'
+				AND EMAIL_READ_STATUS = 0
+	</select>
+	
+	<select id = "mailSelect" resultMap = "emailResult">
+		SELECT 
+		    EMAIL_NO,
+		    em.EMP_NO EMP_NO,
+		    ep.EMP_NAME SENDER_EMP_NAME,
+		     e.EMP_NAME EMP_NAME,
+		    em.EMAIL_SENDER_NO,
+		    ep.EMP_EMAIL EMP_MAIL,
+		    e.EMP_EMAIL EMAIL_SENDER_EMAIL,
+		    j.JOB_NAME JOB_NAME,
+		    d.DEPT_NAME DEPT_NAME,
+		    je.JOB_NAME EMP_JOB_NAME,
+		    jd.DEPT_NAME EMP_DEPT_NAME,
+		    EMAIL_TITLE,
+		    EMAIL_CONTENT,
+		    EMAIL_DATE,
+		    TO_CHAR(EMAIL_TIME, 'YYYY/MM/DD HH24:MI') AS EMAIL_TIME,
+		    EMAIL_LEVEL,
+		    EMAIL_READ_STATUS,
+		    EMAIL_RECEIVE_STATUS,
+		    EMAIL_FILE_LIST
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMAIL_SENDER_NO = e.EMP_NO)
+		JOIN EMPLOYEE ep ON (em.EMP_NO = ep.EMP_NO)
+		JOIN JOB j ON (ep.JOB_CODE = j.JOB_CODE) -- 수정된 부분
+		JOIN DEPARTMENT d ON (ep.DEPT_CODE = d.DEPT_CODE) -- 수정된 부분
+		JOIN JOB je ON (e.JOB_CODE = je.JOB_CODE) -- 수정된 부분
+		JOIN DEPARTMENT jd ON (e.DEPT_CODE = jd.DEPT_CODE) -- 수정된 부분
+		WHERE EMAIL_NO = #{emailNo}
+	</select>
+	
+	<select id = "getEmailFileList" resultMap = "emailAttachmentResult">
+		SELECT EMAIL_FILE_NO,
+			EMAIL_ORIGIN_NAME,
+			EMAIL_CHANGE_NAME,
+			EMAIL_FILE_PATH,
+			EMAIL_UPLOAD_DATE
+		FROM EMAIL_ATTACHMENT
+		WHERE 
+		<foreach collection= "list" item="item" separator=" OR ">
+			 EMAIL_FILE_NO =  #{item}
+		</foreach>
+	</select>
+	
+	<select id = "emailReferenceList" resultMap = "emailResult">
+	    SELECT EMAIL_NO,
+		        em.EMP_NO EMP_NO,
+		        em.EMAIL_SENDER_NO EMP_EMAIL,
+		        e.EMP_EMAIL EMAIL_SENDER_EMAIL,
+		        e.EMP_NAME SENDER_EMP_NAME,
+                DEPT_NAME,
+                 JOB_NAME,
+		        EMAIL_TITLE,
+		        EMAIL_CONTENT,
+		        EMAIL_DATE,
+		        TO_CHAR(EMAIL_TIME, 'YYYY/MM/DD HH24:MI') AS EMAIL_TIME,
+		        EMAIL_LEVEL,
+		        EMAIL_READ_STATUS,
+		        EMAIL_RECEIVE_STATUS,
+		        EMAIL_FILE_LIST
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMP_NO = e.EMP_NO)
+        JOIN JOB USING (JOB_CODE)
+        JOIN DEPARTMENT USING (DEPT_CODE)
+		WHERE EMAIL_FILE_LIST = #{emailFileList}
+		AND EMAIL_LEVEL = 2
+	</select>
+	
+	<update id = "upDateEmail">
+		UPDATE EMAIL
+			SET EMAIL_READ_STATUS = 1
+		WHERE EMAIL_NO = #{emailNo}
+	</update>
+	
+	<update id = "maildeleteSelect">
+		UPDATE EMAIL
+			SET EMAIL_RECEIVE_STATUS = 'N'
+			WHERE EMAIL_NO = #{emailNo}
+	</update>
+	
+	<delete id = "maildeleteSelectdelete">
+		DELETE FROM EMAIL
+			WHERE EMAIL_NO = #{emailNo}
+	</delete>
+	
+	<select id = "ajaxMailList" resultMap = "emailResult">
+		SELECT EMAIL_NO,
+		    EMP_NO,
+		    EMAIL_SENDER_NO,
+		    EMAIL_TITLE,
+		    EMAIL_CONTENT,
+		    EMAIL_FILE_LIST
+		FROM EMAIL
+		WHERE EMAIL_NO = #{emailNo}
+	</select>
+	
+	<update id = "ajaxNotReadMail">
+		UPDATE EMAIL
+			SET EMAIL_READ_STATUS = 0
+			WHERE EMAIL_NO = #{emailNo}
+	</update>
+	
+	<update id = "ajaxReadMail">
+		UPDATE EMAIL
+			SET EMAIL_READ_STATUS = 1
+			WHERE EMAIL_NO = #{emailNo}
+	</update>
+	
+	<select id = "sendMailSearhListCount" resultType = "_int">
+		SELECT COUNT(*)
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND EMAIL_LEVEL = 0 AND EMAIL_RECEIVE_STATUS = 'Y'
+		<choose>
+			<when test = "mailSearchSelect == 'emailTitle'">
+				AND EMAIL_TITLE LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<when test = "mailSearchSelect == 'emailContent'">
+				AND EMAIL_CONTENT LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<otherwise>
+				AND  e.EMP_EMAIL LIKE '%' || #{mailSearchValue} || '%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id = "mailSendSelectSearhList" resultMap = "emailResult">
+		SELECT EMAIL_NO,
+		        em.EMP_NO,
+		        em.EMAIL_SENDER_NO,
+		        e.EMP_EMAIL EMAIL_SENDER_EMAIL,
+		        EMAIL_TITLE,
+		        EMAIL_CONTENT,
+		        EMAIL_DATE,
+		        TO_CHAR(EMAIL_TIME, 'YYYY/MM/DD HH24:MI') AS EMAIL_TIME,
+		        EMAIL_LEVEL,
+		        EMAIL_READ_STATUS,
+		        EMAIL_RECEIVE_STATUS,
+		        EMAIL_FILE_LIST
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON(em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND EMAIL_LEVEL = 0 AND EMAIL_RECEIVE_STATUS = 'Y'
+		<choose>
+			<when test = "mailSearchSelect == 'emailTitle'">
+				AND EMAIL_TITLE LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<when test = "mailSearchSelect == 'emailContent'">
+				AND EMAIL_CONTENT LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<otherwise>
+				AND  e.EMP_EMAIL LIKE '%' || #{mailSearchValue} || '%'
+			</otherwise>
+		</choose>
+		ORDER BY EMAIL_NO DESC
+	</select>
+	
+	<select id = "mailListSearhCount" resultType = "_int">
+		SELECT COUNT(*)
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND (EMAIL_LEVEL = 1 OR EMAIL_LEVEL = 2) AND EMAIL_RECEIVE_STATUS = 'Y'
+		<choose>
+			<when test = "mailSearchSelect == 'emailTitle'">
+				AND EMAIL_TITLE LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<when test = "mailSearchSelect == 'emailContent'">
+				AND EMAIL_CONTENT LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<otherwise>
+				AND e.EMP_EMAIL LIKE '%' || #{mailSearchValue} || '%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id = "mailgetSelectSearhList" resultMap = "emailResult">
+		SELECT EMAIL_NO,
+		        em.EMP_NO,
+		        em.EMAIL_SENDER_NO,
+		        e.EMP_EMAIL EMAIL_SENDER_EMAIL,
+		        EMAIL_TITLE,
+		        EMAIL_CONTENT,
+		        EMAIL_DATE,
+		        TO_CHAR(EMAIL_TIME, 'YYYY/MM/DD HH24:MI') AS EMAIL_TIME,
+		        EMAIL_LEVEL,
+		        EMAIL_READ_STATUS,
+		        EMAIL_RECEIVE_STATUS,
+		        EMAIL_FILE_LIST
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND (EMAIL_LEVEL = 1 OR EMAIL_LEVEL = 2) AND EMAIL_RECEIVE_STATUS = 'Y'
+		<choose>
+			<when test = "mailSearchSelect == 'emailTitle'">
+				AND EMAIL_TITLE LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<when test = "mailSearchSelect == 'emailContent'">
+				AND EMAIL_CONTENT LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<otherwise>
+				AND e.EMP_EMAIL LIKE '%' || #{mailSearchValue} || '%'
+			</otherwise>
+		</choose>
+		ORDER BY EMAIL_NO DESC
+	</select>
+	
+	<select id="deleteListSearhCount" resultType = "_int">
+		SELECT COUNT(*)
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND  EMAIL_RECEIVE_STATUS = 'N'
+		<choose>
+			<when test = "mailSearchSelect == 'emailTitle'">
+				AND EMAIL_TITLE LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<when test = "mailSearchSelect == 'emailContent'">
+				AND EMAIL_CONTENT LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<otherwise>
+				AND e.EMP_EMAIL LIKE '%' || #{mailSearchValue} || '%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="mailDeleteSelectSearhList" resultMap = "emailResult">
+		SELECT EMAIL_NO,
+		        em.EMP_NO EMP_NO,
+		        em.EMAIL_SENDER_NO,
+		        e.EMP_EMAIL EMAIL_SENDER_EMAIL,
+		        EMAIL_TITLE,
+		        EMAIL_CONTENT,
+		        EMAIL_DATE,
+		        TO_CHAR(EMAIL_TIME, 'YYYY/MM/DD HH24:MI') AS EMAIL_TIME,
+		        EMAIL_LEVEL,
+		        EMAIL_READ_STATUS,
+		        EMAIL_RECEIVE_STATUS,
+		        EMAIL_FILE_LIST
+		FROM EMAIL em
+		JOIN EMPLOYEE e ON (em.EMAIL_SENDER_NO = e.EMP_NO)
+		WHERE em.EMP_NO = #{empNo} AND EMAIL_RECEIVE_STATUS = 'N'
+		<choose>
+			<when test = "mailSearchSelect == 'emailTitle'">
+				AND EMAIL_TITLE LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<when test = "mailSearchSelect == 'emailContent'">
+				AND EMAIL_CONTENT LIKE '%' || #{mailSearchValue} || '%'
+			</when>
+			<otherwise>
+				AND e.EMP_EMAIL LIKE '%' || #{mailSearchValue} || '%'
+			</otherwise>
+		</choose>
+		ORDER BY EMAIL_NO DESC
+	</select>
+	
+	<update id= "ajaxRestoreMaillist">
+		UPDATE EMAIL
+			SET EMAIL_RECEIVE_STATUS = 'Y'
+		WHERE EMAIL_NO = #{emailNo} 
+	</update>
+</mapper>

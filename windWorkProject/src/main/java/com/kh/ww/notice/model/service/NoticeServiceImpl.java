@@ -44,14 +44,16 @@ public class NoticeServiceImpl implements NoticeService{
 	public Notice selectNotice(int noticeNo) {
 		return noticeDao.selectNotice(sqlSession, noticeNo);
 	}
+	@Override
+	public ArrayList<NoticeAttachment> selectNoticeAtt(int noticeNo) {
+		return noticeDao.selectNoticeAtt(sqlSession, noticeNo);
+	}
 	
-	// 공지사항 작성 result1
+	// 공지사항 작성
 	@Override
 	public int insertNotice(Notice n) {
 		return noticeDao.insertNotice(sqlSession, n);
 	}
-	
-	// 공지사항 작성 result2
 	@Override
 	public int insertNoticeAttachment(NoticeAttachment na) {
 		return noticeDao.insertNoticeAttachment(sqlSession, na);
@@ -59,8 +61,16 @@ public class NoticeServiceImpl implements NoticeService{
 
 	// 공지사항 수정
 	@Override
-	public int updataNotice(Notice n) {
+	public int updateNotice(Notice n) {
 		return noticeDao.updateNotice(sqlSession, n);
+	}
+	@Override
+	public int deleteNoticeAtt(int fn) {
+		return noticeDao.deleteNoticeAtt(sqlSession, fn);
+	}
+	@Override
+	public int updateNoticeAtt(NoticeAttachment na) {
+		return noticeDao.updateNoticeAtt(sqlSession, na);
 	}
 	
 	// 공지사항 삭제

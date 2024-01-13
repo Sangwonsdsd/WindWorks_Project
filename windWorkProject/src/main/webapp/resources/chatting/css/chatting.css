@@ -1,0 +1,486 @@
+.overflow-hidden{
+    white-space: nowrap; /* 텍스트 줄 바꿈 금지 */
+    overflow: hidden; /* 내용이 부모 요소를 벗어날 경우 자르기 */
+    text-overflow: ellipsis; /* 생략 부분에 "..." 표시 */
+}
+
+
+.chattingList-area0{
+    width: 350px;
+    height: 10;
+}
+.area-12{
+    height: calc(100% - 70px);
+    
+}
+
+
+
+
+
+
+.chattingList-area0::-webkit-scrollbar{
+    display: none;
+}
+
+.chattingList-area1{
+    border-right: 1px solid rgba(112, 112, 112, 0.177);
+    border-left: 1px solid rgba(112, 112, 112, 0.177);
+    width: 500px;
+    overflow-y: scroll;
+}
+.chattingList-area1::-webkit-scrollbar{
+    display: none;
+}
+
+.chattingList-area2{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+
+
+/* 채팅리스트 영역 */
+.chattingList-area1-container{
+    height: 110px;
+    border-bottom: 1px solid rgba(112, 112, 112, 0.177);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+.chattingList-area1-container:hover{
+    background-color: rgba(112, 112, 112, 0.177);
+    border-bottom: 1px solid white;
+    cursor: pointer;
+}
+.chattingList-area1-container-area1{
+    height: 60px;
+    width: 60px;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+
+}
+.chattingList-area1-container-area1-profile{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.chattingList-area1-container-area2{
+    height: 80px;
+    flex: 1;
+    margin: 5px 15px;
+    display : flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-width: 100px;
+    padding: 5px 0;
+}
+.chattingList-area1-container-area2-name{
+    font-size: 15px;
+    font-weight: bold;
+}
+.chattingList-area1-container-area2-content{
+    font-size: 14px;
+}
+.chattingList-area1-container-area3{
+    height: 80px;
+    width: 80px;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+.red_area{
+    width: 23px;
+    height: 25px;
+    background-color: rgb(254, 94, 94);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13px;
+}
+
+
+
+
+/* 채팅 디테일 부분 */
+
+.chattingList-area2-header{
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 30px;
+    border-bottom: 1px solid rgba(112, 112, 112, 0.177);
+}
+.chattingList-area2-header-profile1{
+    width: 60px;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+.chattingList-area2-header-profile2{
+    width: auto;
+    padding-left: 15px;
+    max-width: 90%;
+
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+.chattingList-area2-header-profile3{
+    width: 100px;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: gray;
+}
+
+
+.chattingList-area2-footer{
+    height: 90px;
+    /* border-top: 1px solid rgba(112, 112, 112, 0.177); */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+}
+.chattingList-area2-footer-div{
+    width: 100%;
+    height: 100%;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.chattingList-area2-footer-div-input{
+    flex: 1;
+    height: 100%;
+    border: 1px solid rgb(85, 175, 130);
+    border-radius: 10px;
+    margin-right: 15px;
+    font-size: 12px;
+    padding-left: 12px;
+    outline: none;
+}
+.chattingList-area2-footer-div-button{
+    width: 80px;
+    border: none;
+    background-color: rgb(85, 175, 130);
+    color: white;
+    border-radius: 10px;
+}
+
+
+.chattingList-area2-body{
+    flex: 1;
+    overflow-y: scroll;
+    padding: 5px;
+}
+.chattingList-area2-body::-webkit-scrollbar{
+    display: none;
+}
+
+.body-chatting-you-area{
+    margin: 5px 40px;
+}
+.body-chatting-me-area{
+    margin: 10px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end
+}
+
+.body-chatting-you{
+    border: 1px solid rgb(85, 175, 130);
+    border-radius: 10px;
+    background-color: rgb(85, 175, 130);
+    color: white;
+    display: inline-block;
+    max-width: 600px;
+    padding: 13px 20px 11px 20px;
+    font-size: 14px;
+    
+}
+.body-chatting-you-time{
+    color: rgb(171, 171, 171);
+    font-size: 12px;
+    padding-left: 10px;
+    padding-top: 3px;
+}
+.body-chatting-you-name{
+    color: rgb(82, 82, 82);
+    font-size: 12px;
+    font-weight: bold;
+    /* font-size: 14px; */
+    padding: 3px 0 3px 3px;
+}
+.body-chatting-me{
+    border-radius: 10px;
+    color: rgb(45, 158, 102);
+    border: 1px solid rgb(85, 175, 130);
+    display: inline-block;
+    max-width: 600px;
+    padding: 13px 20px 11px 20px;
+    font-size: 14px;
+}
+.body-chatting-me-time{
+    color: rgb(171, 171, 171);
+    font-size: 12px;
+    padding-right: 10px;
+    padding-top: 3px;
+}
+
+
+/* 조직도 ~ 조직도 상단 부분 */
+.screen_leftUp{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    border-bottom: 1px solid rgba(112, 112, 112, 0.177);
+}
+
+.profileImgCircle{
+    margin-right: 30px;
+}
+.profileImg{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.profileImg-img{
+    width: 100%;
+    height: 100%;
+}
+.profileName{
+    margin-right: 30px;
+}
+.profileCheckbox{
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+.profileCheckbox-icon{
+  width: 100%;
+  cursor: pointer;
+}
+.profileStatus{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.overlay-div{
+    position: absolute;
+    top: 30px;
+    /* left: -30px; */
+    width: 100px;
+    /* height: 100px; */
+    background-color: white;
+    border-top: 1px solid rgba(112, 112, 112, 0.177);
+    border-right: 1px solid rgba(112, 112, 112, 0.177);
+    border-left: 1px solid rgba(112, 112, 112, 0.177);
+    display: none;
+
+}
+.overlay-div-selectBox{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+    align-items: center;
+
+
+}
+.overlay-div-selectBox-cont{
+    width: 100%;
+    height: 30px;
+    border-bottom: 1px solid rgba(112, 112, 112, 0.177);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: 4px;
+    font-size: 14px;
+}
+.overlay-div-selectBox-cont:hover{
+    cursor: pointer;
+    background-color: rgba(112, 112, 112, 0.177);;
+}
+
+
+
+
+/* 조직도 중간 관련 */
+
+.screen_leftCenter{
+    margin: 20px 0px;
+    padding: 0px 50px;
+    max-height:max-content;
+
+    overflow: hidden;
+    overflow-y: scroll;
+    height: calc(100% - 140px);
+}
+.screen_leftCenter::-webkit-scrollbar{
+    display: none;
+}
+.org-container {
+    list-style: none;
+    padding: 0;
+}
+.org-title {
+    padding: 6px 0;
+}
+.org-title2{
+    padding-left: 30px;
+}
+.org-content {
+    display: none;
+}
+.org-toggle{
+    background-color: #808080;
+    color: white;
+    width: 16px;
+    height: 16px;
+    display : flex;
+    justify-content: center;
+    font-size: 12px;
+    margin-right: 8px;
+}
+.org-oneline{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+.member-area{
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    margin-left: 50px;
+    padding: 4px 14px;
+
+}
+.member-area:hover{
+    cursor: pointer;
+    background-color: rgba(160, 159, 159, 0.177);;
+}
+
+.circle{
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+    margin-right: 8px;
+}
+.circle-online{
+    background-color: rgb(85, 175, 130);
+}
+.circle-offline{
+    background-color: red;
+}
+.circle-away{
+    background-color: orange;
+}
+
+.member-name{
+    margin-right: 8px;
+}
+.member-checkbox{
+    margin-left: auto;
+    accent-color: rgb(85, 175, 130);
+}
+.member-checkbox:checked{
+    color:white;
+}
+
+
+
+/* 조직도 하단 */
+
+.screen_leftDown{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    /* background-color: beige; */
+}
+.screen_leftDown-left{
+    height: 70px;
+    width: calc(100% - 70px);
+    padding: 5px;
+
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+
+    overflow: hidden;
+    overflow-x: scroll;
+}
+.screen_leftDown-left::-webkit-scrollbar{
+    display: none;
+}
+
+.screen_leftDown-right{
+    width: 70px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.screen_leftDown-right-plusbtn{
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    font-size: 25px;
+    background-color: rgb(160, 159, 159);
+    color: white;
+    border:none ;
+
+}
+.screen_leftDown-left-plusEmp{
+    width: 60px;
+    height: 60px;
+    margin: 0 3px;
+    min-height: 60px;
+    padding-top: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.plus-profileImg-img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.plus-profileImg-img-area{
+    width: 30px;
+    height: 30px;
+}
+.plus-profileImg-name-area{
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+
+

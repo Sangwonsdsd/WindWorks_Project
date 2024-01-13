@@ -4,7 +4,7 @@
 
   <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>StudyManagement</title>
     <!-- 부트스트랩 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -13,6 +13,8 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <!--css-->
     <link rel="stylesheet" href="resources/studyManagement/css/studyManagement.css">
+    <!--alert-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </head>
 
   <body>

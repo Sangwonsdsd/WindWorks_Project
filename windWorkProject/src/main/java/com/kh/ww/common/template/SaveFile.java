@@ -34,7 +34,9 @@ public class SaveFile {
 
 		try {
 			upfile.transferTo(new File(savePath + changeName));
-		} catch (IllegalStateException | IOException e) {
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

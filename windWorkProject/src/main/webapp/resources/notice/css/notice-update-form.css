@@ -65,7 +65,16 @@
 	width: 850px;
 }
 
-.notice-enroll-file-icon{
+.notice-enroll-table input:focus{
+	outline: none;
+}
+
+.notice-enroll-table textarea:focus{
+	outline: none;
+}
+
+/* 파일 업로드 */
+/* .notice-enroll-file-icon{
 	font-size: 20px;
 }
 
@@ -76,14 +85,70 @@
     margin-bottom: 25px;
     border: 1px dashed #dddddd;
     color: #999999;
+} */
+
+.createLectureMaterials-file-upload-box {
+    position: relative;
+    overflow-y: auto;
+    padding: 8px 0;
+    border: 2px dashed #ddd;
+    box-sizing: border-box;
+    max-height: 300px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.createLectureMaterials-file-upload {
+    padding: 15px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-left: 50px;
+}
+
+.create-document-icon {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+#create-fileSelected-label {
+    text-decoration: underline;
+    font-weight: 700;
+    margin-right: 5px;
+}
+
+.create-fileSelected {
+    display: none;
+}
+
+.createLectureMaterials-file-upload-wrap {
+    display: flex;
+    width: 100%;
+    height: auto;
+    list-style-type: none;
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type=file]::file-selector-button:hover{
+	background: rgb(85, 175, 130);
+	border: 1px solid rgb(85, 175, 130);
+    color: white;
+}
+
+.closeButton svg{
+	margin-left: 5px;
 }
 
 /* 공지사항 등록,취소 버튼 */
 .notice-enroll-btn{
-	display: flex;
-    justify-content: center;
-    padding-left: 90px;
+    display: flex;
+    padding-left: 180px;
     margin-top: 15px;
+    justify-content: center;
 }
 
 .notice-enroll-btn-submit{

@@ -9,104 +9,362 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
+    flex-direction: column;
 }
 
 .insertContainer{
     display: flex;
     border: 1px solid rgb(85, 175, 130);
-    min-width: 900px;
-    width: 60%;
-    height: 80%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.container{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    min-width: 900px;
-    max-width: 900px;
-}
-.idFindForm {
-    display: flex;
-    width: 400px;
-    height: 300px;
     border-radius: 10px;
-    align-items: center;
-    justify-content: center;
+    min-width: 600px;
+    width: 30%;
+    height: 65%;
     flex-direction: column;
+    justify-content: space-between;
 }
-.idFindForm-input-title-logo {
+/* 탭 메뉴바 */
+.tab-menu{
+    width: 100%;
     display: flex;
-    width: 350px;
-    height: 80px;
-    align-items: center;
-    color: rgb(85, 175, 130);
+    /* margin-top: -79px; 마지막에 */
 }
 
+/* #employeeFindId{
+    background-color: rgb(85, 175, 130);
+    color: white;
+    font-size: 25px;
+}
+
+#employeeFindPwd{
+    font-size: 25px;
+    color: rgb(85, 175, 130);
+} */
+
+.tab_item {
+    width: calc(100%/2);
+    /* background-color: #f8f8f8; */
+    border-bottom: 1px solid rgb(85, 175, 130);
+    line-height: 65px;
+    font-size: 23px;
+    color: rgb(85, 175, 130);
+    text-align: center;
+    transition: all 0.2s ease;
+    border-radius: 7px 7px 0 0;
+}
+.tab_item:hover {
+    opacity: 0.8;
+}
+
+input[name="tab_item"] {
+    display: none;
+}
+
+/* 선택된 탭 스타일 */
+.tab-menu input:checked + .tab_item {
+    background-color: rgb(85, 175, 130);
+    color: #fff;
+}
+
+.container{
+    /* display: flex; 
+    align-items: center;
+    justify-content: space-around; */
+    min-width: 600px;
+    max-width: 600px;
+}
+
+/* 아이디찾기 화면 */
 .idFindForm-input-container{
     display: flex;
-    width: 390px;
-    height: 100px;
-    justify-content: center;
-    align-items: center;
+    /* width: 600px; */
+    /* height: 200px; */
     flex-direction: column;
     font-size: 13px;
-}
-.inputPasswordFind1{
-    display: flex;
-    width: 89%;
-    font-size: 13px;
-    justify-content: start;
-    height: 50px;
+    justify-content: center;
     align-items: center;
-    
 }
 
-.inputPasswordFind2{
+.idFindForm-input-title-logo {
+    font-size: 22px;
+    color: rgb(85, 175, 130);
+    margin-bottom: 15px;
+}
+
+.idFind-input-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.inputName{
     display: flex;
     width: 100%;
     font-size: 13px;
+    height: 50px;
+    margin: 5px 0 5px 0;
     justify-content: center;
+    align-items: center;
+}
+
+.inputPhone{
+    display: flex;
+    /* width: 100%; */
+    font-size: 13px;
+    height: 50px;
+    margin: 5px 0 5px 125px;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputConfirmNo{
+    display: flex;
+    /* width: 100%; */
+    font-size: 13px;
+    /* justify-content: center; */
     height: 50px;
     align-items: center;
-    
+    margin: 5px 0 5px 125px;
 }
 
 .idFindForm-input-style{
     border: 1px solid rgb(85, 175, 130);
     border-radius: 3px;
     height: 40px;
-    width: 250px;
-    margin: 0px 5px 0 5px ;
+    width: 220px;
+    margin: 0px 5px 0 5px;
+    padding-left: 8px;
 }
 
-.idFindForm-input-button{
+.idFindForm-input-style:focus{
+    outline: none;
+}
+
+#confirmNo4{
+    background-color: rgb(239, 239, 239);
+}
+
+.idFindForm-sendSMS-button{
     border: none;
-    border-radius: 2px;
+    border-radius: 5px;
     background-color: rgb(85, 175, 130);
     color: white;
-    height: 40px;
-    width: 75px;
-    margin: 0px 5px 0 5px ;
+    margin: 0px 5px 0 5px;
+    padding: 7px 10px 7px 10px;
+    font-size: 15px;
 }
 
-.nameInputlabel{
-    margin-right: 38px;
+.idFindForm-confirmNo-button{
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(85, 175, 130);
+    color: white;
+    margin: 0px 5px 0 5px;
+    padding: 7px 10px 7px 10px;
+    font-size: 15px;
+}
+
+.confirmFail{
+    display: none;
+    color: red;
+    font-size: 14px;
+    border: none;
+    width: 210px;
+    margin-left: 142px;
+}
+
+/* 아이디찾기 성공 화면 */
+.findIdResultDispaly{
+    display: none;
+    height: 300px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.find-id-ment-all{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#find-id-ment{
+    color: rgb(85, 175, 130);
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#goLoginBtn{
+    display: none;
+    border: none;
+    border-radius: 20px;
+    padding: 7px 15px 7px 15px;
+    background-color: rgb(85, 175, 130);
+    color: white;
+}
+
+/* 비밀번호 찾기 화면 */
+.pwdFindForm-input-container{
+    display: none;
+    /* width: 600px; */
+    /* height: 200px; */
+    flex-direction: column;
+    font-size: 13px;
+    justify-content: center;
+    align-items: center;
+}
+
+.pwdFindForm-input-title-logo{
+    font-size: 22px;
+    color: rgb(85, 175, 130);
+    margin-bottom: 15px;
+}
+
+.inputcheckId{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.idCheckForm-input-style{
+    border: 1px solid rgb(85, 175, 130);
+    border-radius: 3px;
+    height: 40px;
+    width: 220px;
+    padding-left: 8px;
+    margin-bottom: 10px;
+}
+
+.idCheckForm-input-style:focus{
+    outline: none;
+}
+
+.idFindForm-checkId-button{
+    /* border: none;
+    border-radius: 5px;
+    background-color: rgb(85, 175, 130);
+    color: white;
+    padding: 7px 10px 7px 10px;
+    font-size: 15px; */
+
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(85, 175, 130);
+    color: white;
+    padding: 7px 95px 7px 95px;
+    font-size: 15px;
+}
+
+/* 비밀번호 찾기 아이디 있으면 인증번호 확인 */
+.checkIdOk{
+    display: none;
+    /* width: 600px; */
+    /* height: 200px; */
+    flex-direction: column;
+    font-size: 13px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 70px;
+}
+
+#confirmNo2{
+    background-color: rgb(239, 239, 239);
+}
+
+#checkEmailFail{
+    display: none;
+    color: red;
+    font-size: 14px;
+    border: none;
+    width: 240px;
+    margin: 0 0 8px 16px;
+}
+
+.inputConfirmNoPwd{
+    display: flex;
+    /* width: 100%; */
+    font-size: 13px;
+    /* justify-content: center; */
+    height: 50px;
+    align-items: center;
+    margin: 5px 0 5px 125px;
+}
+
+.confirmFail2{
+    display: none;
+    color: red;
+    font-size: 14px;
+    border: none;
+    width: 210px;
+    margin-left: 17px;
+}
+
+/* 비밀번호 찾기 성공 화면 */
+.inputNewPwd{
+    display: none;
+    flex-direction: column;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+}
+
+.pwdFindForm-input-style{
+    border: 1px solid rgb(85, 175, 130);
+    border-radius: 3px;
+    height: 40px;
+    width: 80%;
+    padding-left: 8px;
+}
+
+.pwdFindForm-input-style:focus{
+    outline: none;
+}
+
+.idFindForm-newPwd-button{
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(85, 175, 130);
+    color: white;
+    padding: 8.5px 81px 8.5px 81px;
+    font-size: 15px;
+    width: 80%;
+}
+
+.invalid-feedback{
+    display: flex;
+    justify-content: flex-start;
+    margin: 6px 0 8px 60px;
+    font-size: 13px;
+    margin-left: 60px;
+}
+
+.valid-feedback{
+    display: flex;
+    justify-content: flex-start;
+    margin: 6px 0 8px 60px;
+    font-size: 13px;
+    margin-left: 60px;
+}
+
+/* 돌아가기 버튼 */
+.backBtn{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .backBtn-container{
-    min-width: 770px;
     max-width: 770px;
     display: flex;
     justify-content: start;
     align-items: center;
 }
 
-.backBtn{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#goback{
+    border: 1px solid rgb(230, 92, 92);
+    border-radius: 20px;
+    padding: 7px 15px 7px 15px;
+    background-color: white;
+    color: rgb(230, 92, 92);
 }

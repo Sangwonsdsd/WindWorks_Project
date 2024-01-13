@@ -22,11 +22,12 @@ public class Notice {
 	private String noticeStatus;
 	private int empNo;
 	private String empName;
-	private String noticeOriginName;
-	private String noticeChangeName;
-	private String noticeFilePath;
-	private String noticeFileLevel;
+	
+//	private String noticeOriginName;
+//	private String noticeChangeName;
+//	private String noticeFilePath;
+//	private String noticeFileLevel;
 	private String deptCode;
-	private int noticeReplyNo;
-	private int parentReplyNo;
+//	private int noticeReplyNo;
+//	private int parentReplyNo;
 }

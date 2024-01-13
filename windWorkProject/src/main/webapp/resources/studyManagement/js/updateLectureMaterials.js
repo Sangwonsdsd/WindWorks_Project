@@ -90,10 +90,10 @@ $(document).on("click", "#updateSave", function () {
         dataType: 'json',
         cache: false,
         success: function (res) {
-            alert("저장에 성공하셨습니다.");
+            swal("", "저장에 성공하셨습니다.", "success");
 
         }, error: function (res) {
-            alert("오류 발생.\n관리자에게 문의해주세요.");
+            swal("", "오류 발생.\n관리자에게 문의해주세요.", "success");
         }
     });
 });

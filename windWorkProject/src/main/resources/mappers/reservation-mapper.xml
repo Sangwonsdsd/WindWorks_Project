@@ -12,6 +12,7 @@
 		<result column="END_DATE" property="endDate"/>
 		<result column="DELETE_STATUS" property="deleteStatus"/>
 		<result column="ASSETS_NAME" property="assName"/>
+		<result column="EMP_NAME" property="empName"/>
 	</resultMap>
 	
 	<resultMap type = "Assets" id="assetsResult">
@@ -26,23 +27,75 @@
  		  FROM ASSETS
  		 ORDER BY ASSETS_NO ASC
  	</select>
- 	
+ 	<!-- 재물 예약 쿼리문 -->
+ 	<insert id="reservationAssets">
+ 		INSERT INTO RESERVATION(
+ 			RESERVATION_NO,
+			ASSETS_NO,
+			EMP_NO,
+			RESERVATION_NAME,
+			START_DATE_TIME,
+			END_DATE_TIME
+ 		)
+ 		VALUES (
+ 			SEQ_RNO.NEXTVAL,
+ 			#{assNo},
+ 			#{empNo},
+ 			#{reserName},
+ 			TO_DATE(#{startDateTime},'YYYY-MM-DD HH24:MI'),
+ 			TO_DATE(#{endDateTime},'YYYY-MM-DD HH24:MI')
+ 		)
+ 	</insert>
+ 	<!-- 재물 반납 쿼리문 -->
+ 	<update id="deleteReservation">
+ 		UPDATE RESERVATION
+ 		   SET DELETE_STATUS = 'N'
+ 		 WHERE RESERVATION_NO = #{reserNo}
+ 	</update>
+ 	<!-- 내 예약 리스트 카운트 -->
+ 	<select id="selectListCount" resultType="_int">
+ 		SELECT COUNT(*)
+ 		  FROM RESERVATION
+ 		 WHERE EMP_NO = #{empNo}
+ 	</select>
  	<!-- 예약된 재물 리스트 조회 쿼리문 -->
 	<select id="selectReservationList" resultMap="reservationResult">
  		SELECT RESERVATION_NO,
  			   ASSETS_NO,
  			   EMP_NO,
  			   RESERVATION_NAME,
- 			   TO_CHAR(START_TIME, 'HH24:MI') AS START_TIME,
- 			   TO_CHAR(END_TIME, 'HH24:MI') AS END_TIME,
- 			   TO_CHAR(START_DATE, 'YYYY-MM-DD') AS START_DATE,
- 			   TO_CHAR(END_DATE, 'YYYY-MM-DD') AS END_DATE,
+ 			   TO_CHAR(START_DATE_TIME, 'HH24:MI') AS START_TIME,
+ 			   TO_CHAR(END_DATE_TIME, 'HH24:MI') AS END_TIME,
+ 			   TO_CHAR(START_DATE_TIME, 'YYYY-MM-DD') AS START_DATE,
+ 			   TO_CHAR(END_DATE_TIME, 'YYYY-MM-DD') AS END_DATE,
  			   DELETE_STATUS,
  			   ASSETS_NAME
  		  FROM RESERVATION
  		  JOIN ASSETS USING (ASSETS_NO)
  		 WHERE EMP_NO = #{empNo}
  		   AND DELETE_STATUS = 'Y'
+ 		   AND TO_CHAR(START_DATE_TIME,'YYYY-MM-DD') = #{reserDate}
+ 		   <!-- 날짜비교해서 가져오기 -->
+ 		 ORDER BY RESERVATION_NO ASC
+ 	</select>
+ 	<!-- 예약된 자산 리스트 div 조회 쿼리문 -->
+	<select id="selectReservationListDiv" resultMap="reservationResult">
+ 		SELECT RESERVATION_NO,
+ 			   ASSETS_NO,
+ 			   EMP_NO,
+ 			   RESERVATION_NAME,
+ 			   TO_CHAR(START_DATE_TIME, 'HH24:MI') AS START_TIME,
+ 			   TO_CHAR(END_DATE_TIME, 'HH24:MI') AS END_TIME,
+ 			   TO_CHAR(START_DATE_TIME, 'YYYY-MM-DD') AS START_DATE,
+ 			   TO_CHAR(END_DATE_TIME, 'YYYY-MM-DD') AS END_DATE,
+ 			   DELETE_STATUS,
+ 			   ASSETS_NAME,
+ 			   EMP_NAME
+ 		  FROM RESERVATION
+ 		  JOIN ASSETS USING (ASSETS_NO)
+ 		  JOIN EMPLOYEE USING (EMP_NO)
+ 		 WHERE DELETE_STATUS = 'Y'
+ 		   AND TO_CHAR(START_DATE_TIME,'YYYY-MM-DD') = #{reserDate}
  		 ORDER BY RESERVATION_NO ASC
  	</select>
 </mapper>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예약</title>
+<title>Reservation</title>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -13,20 +13,20 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </head>
-<body onload='init(${result})'>
+<body onload='init(${result}, `${loginUser.empName}`), reservationOnload()'>
     <jsp:include page="../common/header.jsp" />
     <div class ="menu">
         <div class="reservation-all">
             <div class="reservation-calender">
-                <div class="event-calenderTitleText" id="calendar-title-yesterday" >
-                    <ion-icon name="chevron-back-outline" onclick="backCalendarDate()"></ion-icon>
+                <div id="calendar-title-yesterday" >
+                    <ion-icon name="chevron-back-outline" onclick='backCalendarDate("${reserDate}")'></ion-icon>
                 </div>
-                <div class="event-calenderTitleText" id="calendar-title"></div>
-                <div class="event-calenderTitleText" id="calendar-title-tomorrow">
-                    <ion-icon name="chevron-forward-outline" onclick="frontCalendarDate()"></ion-icon>
+                <div id="calendar-title">${reserDate}</div>
+                <div id="calendar-title-tomorrow">
+                    <ion-icon name="chevron-forward-outline" onclick='frontCalendarDate("${reserDate}")'></ion-icon>
                 </div>
-                <div class="event-calenderTitleText" id="calendar-icon">
-                    <ion-icon name="calendar-outline"></ion-icon>
+                <div id="calendar-title-btn">
+                    <button id="todayBtn" onclick="goToday()">오늘</button>
                 </div>
             </div>
             <div class="reservation-graph">
@@ -69,16 +69,16 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>이름</th>
-                                <th>대여 날짜</th>
-                                <th>내용</th>
+                                <th style="width: 350px;">자산명</th>
+                                <th style="width: 480px;">대여 날짜</th>
+                                <th style="width: 345px;">내용</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                        
                         </tbody>
                     </table>
+                    <button type="button" style="display: none;" id="reservation-btn" data-bs-toggle="modal" data-bs-target="#reservationModal"></button>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
     <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" id="modal-dialog-id">
             <div class="modal-content">
-                <form action="" method="post">
+                <form action="reservation.as" method="post">
                     <div class="modal-header" id="modal-header-id">
                         <button type="button" id="close-btn2" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <h4 class="modal-title" id="modal-title-id">예약</h4>
@@ -99,15 +99,20 @@
                         <div class="modal-body" id="modal-body-id">
                             <table class="modal-table">
                                 <tr>
-                                    <th>이름</th>
-                                    <td><input type="text" class="modal-input" id="assetName" name="assName" readonly></td>
+                                    <th>자산명</th>
+                                    <td>
+                                        <input type="text" class="modal-input" id="assetName" name="assName" value="" readonly>
+                                        <input type="hidden" id="assetNo" name="assNo" value="">
+                                        <input type="hidden" id="loginUserNo" name="empNo" value="${loginUser.empNo}">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th id="modal-table-th-date">일시</th>
                                     <td>
-                                        <input type="date" class="modal-input-date">
+                                        <input type="date" class="modal-input-date" name="startDate" id="startDate" value="${reserDate}">
 
-                                        <select class="modal-input-date" id="reservation-time-start">
+                                        <select class="modal-input-date" name="startTime" id="reservation-time-start">
+                                            <option value="00:00">00:00</option>
                                             <option value="00:30">00:30</option>
                                             <option value="01:00">01:00</option>
                                             <option value="01:30">01:30</option>
@@ -155,11 +160,11 @@
                                             <option value="22:30">22:30</option>
                                             <option value="23:00">23:00</option>
                                             <option value="23:30">23:30</option>
-                                            <option value="00:00">00:00</option>
                                         </select>
                                         ~
-                                        <input type="date" class="modal-input-date">
-                                        <select class="modal-input-date" id="reservation-time-end">
+                                        <input type="date" class="modal-input-date" name="endDate" id="endDate" value="${reserDate}">
+                                        <select class="modal-input-date" name="endTime" id="reservation-time-end">
+                                            <option value="00:00">00:00</option>
                                             <option value="00:30">00:30</option>
                                             <option value="01:00">01:00</option>
                                             <option value="01:30">01:30</option>
@@ -207,13 +212,12 @@
                                             <option value="22:30">22:30</option>
                                             <option value="23:00">23:00</option>
                                             <option value="23:30">23:30</option>
-                                            <option value="00:00">00:00</option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>내용</th>
-                                    <td><input type="text" class="modal-input2"></td>
+                                    <td><input type="text" name="reserName" class="modal-input2" required></td>
                                 </tr>
                             </table>
                         </div>

@@ -48,6 +48,15 @@ function myCommunityList(callback) {
 // 리스트 선택시 실행될 함수
 function selectCommunityOne(clickedElement) {
     let selectComNo = clickedElement.getAttribute('name');
+    
+    // currentList이름을 가진 리스트 가져와서 클래스명 지우기
+    let currentLists = document.getElementsByClassName("currentList");
+    for (var i = 0; i < currentLists.length; i++) {
+        currentLists[i].classList.remove("currentList");
+    }
+    // 선택한 리스트에 currentList 클래스명 부여하기
+    clickedElement.classList.add('currentList');
+
 
     selectCommunityColorChange(clickedElement); // 색바꾸기
     selectCommunityMemberList(selectComNo); // 멤버 리스트 조회
@@ -83,7 +92,7 @@ function selectCommunityMemberList(selectComNo){
             let str = "";
             str +=  '<div class="communityList-area3-title">' +
                         '<h5 id="select-com-name">'+ res[0].communityName +'</h5>' +
-                        '<div data-bs-toggle="modal" data-bs-target="#com-update" onclick="comUpdateModal()">톱</div>' +
+                        '<div data-bs-toggle="modal" data-bs-target="#com-update" onclick="comUpdateModal()"><ion-icon style="width:20px; height:20px" name="cog-outline"></ion-icon></div>' +
                     '</div>' +
                     '<div class="communityList-area3-member">' +
                         '<div><h5>멤버</h5></div>' +
@@ -135,7 +144,7 @@ function selectCommunityBoardList(selectComNo, cpage){
                                 '</div>' +
                                 '<div class="overflow-hidden communityList-area2-container-content-content">' + list.communityBoardContent + '</div>' +
                                 '<div class="communityList-area2-container-content-profile">' +
-                                    '<div class="communityList-area2-container-content-profile-image">' + '사진' + '</div>' +
+                                    '<div class="communityList-area2-container-content-profile-image">' + '<img class="communityList-area2-img" src="'+ list.profileFilePath +'">' + '</div>' +
                                     '<div class="communityList-area2-container-content-profile-name">' + list.empName + '</div>' +
                                     '<div class="communityList-area2-container-content-profile-date">' + list.communityBoardCreateDate + '</div>' +
                                 '</div>' +
@@ -190,14 +199,14 @@ function selectBoard(bno){
                                 '<div class="detail-title">' + board.communityBoardTitle + '</div>' +
                             '</div>' +
                             '<div class="communityList-area2-detail-title-title-profile">' +
-                                '<div class="profile-image">' + board.profileFilePath + '</div>' +
+                                '<div class="profile-image"><img style="width: 25px; height: 25px; border-radius: 50%;" src="' + board.profileFilePath + '"></div>' +
                                 '<div class="profile-name">' + board.empName + '</div>' +
                                 '<div class="profile-date">' + board.communityBoardCreateDate + '</div>' +
                             '</div>' +
                         '</div>' +
                         '<div class="communityList-area2-detail-title-like">'
                         if(board.empNo == loginUserNo){
-                        str +=	'<button class="boardDetailUpdateBtn">수정</button>' +
+                        str +=	'<button class="boardDetailUpdateBtn" onclick="boardUpdate(' + board.communityBoardNo + ')">수정</button>' +
                             '<button class="boardDetailDeleteBtn" onclick="boardDelete(' + board.communityBoardNo + ')">삭제</button>'
                         }
                         str += '</div>' +
@@ -211,7 +220,7 @@ function selectBoard(bno){
                     '<div class="communityList-area2-detail-reply">' +
                         '<div class="reply-title-area">' +
                             '<div>댓글 (' + board.communityBoardReplyCount + ')</div>' +
-                            '<div>작성</div>' +
+                            '<div></div>' +
                         '</div>' +
                         '<hr>' +
                         '<table class="reply-table">' +//댓글 들어갈 곳
@@ -285,7 +294,7 @@ function selectReplyList(bno){
             // 대댓글 조회
             for (let list of reReList){
                 let str2 = '<tr class="reReply-table-tr" id="rNo' + list.communityReplyNo + '">' +
-                            '<td class="reply-name">'+ list.empName +'</td>' +
+                            '<td class="reply-name"><ion-icon name="return-down-forward-outline" style="width: 18px; height: 18px; padding-right: 4px;"></ion-icon>'+ list.empName +'</td>' +
                             '<td class="reply-content">' + list.communityReplyComment + '</td>' +
                             '<td class="reply-update-date-area">'
                     if(list.empNo == loginUserEmpNo){
@@ -315,48 +324,67 @@ function selectReplyList(bno){
 function insertReply(bno){
     let loginUserEmpNo = currentUser.empNo;
     let content = document.querySelector("#reply-content").value;
-    $.ajax({
-        url: "replyIn.com",
-        data: {
-            bno: bno,
-            eno: loginUserEmpNo,
-            reCont: content,
-        },
-        success: function (res) {
-            if(res == "success"){
-                alert("등록 완료")
-                selectBoard(bno)
-                document.querySelector("#reply-content").value = "";
-            } else {
-                console.log("insert실패")
-            }
-        },
-        error: function () {
-            console.log("실패");
+
+    swal({
+		text : "등록하시겠습니까?",
+		buttons: ["취소" , "확인"]
+	})
+	.then(function(result){
+        
+        if(result){
+        	$.ajax({
+                url: "replyIn.com",
+                data: {
+                    bno: bno,
+                    eno: loginUserEmpNo,
+                    reCont: content,
+                },
+                success: function (res) {
+                    if(res == "success"){
+                        selectBoard(bno)
+                        document.querySelector("#reply-content").value = "";
+                    } else {
+                        console.log("insert실패")
+                    }
+                },
+                error: function () {
+                    console.log("실패");
+                }
+            });
         }
-    });
+        
+	})
 }
 
 // 댓글 삭제
 function deleteReply(rno, bno){
 
-    $.ajax({
-        url: "replyDel.com",
-        data: {
-            rno: rno
-        },
-        success: function (res) {
-            if(res == "success"){
-                alert("삭제 완료")
-                selectBoard(bno)
-            } else {
-                console.log("insert실패")
-            }
-        },
-        error: function () {
-            console.log("실패");
+    swal({
+		text : "삭제하시겠습니까",
+		buttons: ["취소" , "확인"]
+	})
+	.then(function(result){
+        if(result){
+        	$.ajax({
+                url: "replyDel.com",
+                data: {
+                    rno: rno
+                },
+                success: function (res) {
+                    if(res == "success"){
+                        selectBoard(bno)
+                    } else {
+                        console.log("insert실패")
+                    }
+                },
+                error: function () {
+                    console.log("실패");
+                }
+            });
         }
-    });
+        
+	})
+
 }
 
 
@@ -413,52 +441,70 @@ function comListAll(){
 
 // 커뮤 가입
 function comIn(comNo, empNo){
-    
-    if (window.confirm("가입하시겠습니까?")){
-        $.ajax({
-            url: "comIn.com",
-            data:{
-                comNo: comNo,
-                empNo: empNo
-            },
-            success: function(res){
-                if(res == "success"){
-                    alert("가입 완료")
-                        myCommunityList();
-                        comListAll();
-                } else {
-                    console.log("insert실패")
+
+    swal({
+		text : "가입하시겠습니까?",
+		buttons: ["취소" , "확인"]
+	})
+	.then(function(result){
+        
+        if(result){
+        	$.ajax({
+                url: "comIn.com",
+                data:{
+                    comNo: comNo,
+                    empNo: empNo
+                },
+                success: function(res){
+                    if(res == "success"){
+                            myCommunityList();
+                            comListAll();
+                    } else {
+                        console.log("insert실패")
+                    }
+                },
+                error : function(){
+                    console.log("실패")
                 }
-            },
-            error : function(){
-                console.log("실패")
-            }
-        })
-    }
+            })
+        }
+        
+	})
+    
 }
 
 // 커뮤 탈퇴
 function comOut(comNo, empNo){
-    if(window.confirm("탈퇴하시겠습니까?")){
-        $.ajax({
-            url: "comOut.com",
-            data:{
-                comNo: comNo,
-                empNo: empNo
-            },
-            success: function(res){
-                if(res == "success"){
-                    alert("탈퇴 완료")
-                    myCommunityList();
-                } else {
-                    console.log("delete 실패")
+    swal({
+		text : "탈퇴하시겠습니까?",
+		buttons: ["취소" , "확인"]
+	})
+	.then(function(result){
+		console.log(result);
+        
+        if(result){
+        	$.ajax({
+                url: "comOut.com",
+                data:{
+                    comNo: comNo,
+                    empNo: empNo
+                },
+                success: function(res){
+                    if(res == "success"){
+                        myCommunityList();
+                        comListAll();
+                    } else {
+                        console.log("delete 실패")
+                    }
+                },
+                error: function() {
+                    console.log("실패")
                 }
-            },
-            error: function() {
-                console.log("실패")
-            }
-        })
-    }
+            })
+        }
+        
+	})
+
 }
 
 
@@ -507,7 +553,7 @@ function comBoardCreateForm(){
                 '</table>' +
                 '<div class="form-button-all">' +
                     '<button class="form-button1" type="submit">등록</button>' +
-                    '<button class="form-button2">취소</button>' +
+                    '<button class="form-button2" onclick="backCreateBo()">취소</button>' +
                 '</div>' +
             '</form>' +
         '</div>' 
@@ -579,12 +625,109 @@ function formatBytes(bytes, decimals = 2) {
 
 // 게시글 삭제
 function boardDelete(bno){
-    if(window.confirm("삭제하시겠습니까?")){
-        location.href = "deleteBo.com?bno=" + bno;
-        // location.href = "list.com";  안먹음
-    }
+    swal({
+		text : "삭제하시겠습니까?",
+		buttons: ["취소" , "확인"]
+	})
+	.then(function(result){
+        
+        if(result){
+            location.href = "deleteBo.com?bno=" + bno;
+        }
+        
+	})
+
+
 }
 
+// 게시글 수정
+function boardUpdate(bno){
+    $.ajax({
+        url: "updateBoForm.com",
+        data:{
+            bno: bno,
+        },
+        success: function(res){
+            let board = res.board;
+            let atList = res.atList;
+            console.log(atList)
 
+            let str = "";
+            str +='<div class="communityList-area2-all">' +
+                    '<div class="communityEnrollForm-title">글쓰기 수정</div>' +
+                    '<form action="updateBo.com" method="post" enctype="multipart/form-data">' +
+                        '<table class="communityEnrollForm-table">' +
+                            '<tr>' +
+                                '<td class="td1">분류</td>' +
+                                '<td>' +
+                                    '<input type="hidden" name="empNo" value="' + currentUser.empNo + '"/>'+
+                                    '<input type="hidden" name="communityNo" value="' + currentCommunity.comNo + '"/>'+
+                                    '<input type="hidden" name="communityBoardNo" value="' + board.communityBoardNo + '"/>'+
+                                    '<input class="td-name" type="text" value="' + currentCommunity.comName + '" readonly>' +
+                                '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td class="td1">제목</td>' +
+                                '<td><input type="text" name="communityBoardTitle" class="td2 table-title" id="create-board-title" value="' + board.communityBoardTitle + '"></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td class="td1 test-up">기존파일</td>' +
+                                '<td>'
+                            for (let list of atList){
+                                str += '<span class="updateForm-file-list">'+ list.communityOriginName +'</span>' +
+                                    '<input type="hidden" name="filePath" value="' + list.communityFilePath + '"/>' +
+                                    '<input type="hidden" name="fileNo" value="' + list.communityFileNo + '"/>'
+                                }
+                                str += '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td class="td1 test-up">파일첨부</td>' +
+                                '<td style="height: 80px;">' +
+                                    '<div class="createLectureMaterials-file-upload-box" id="drop-area">' +
+                                        '<div class="createLectureMaterials-file-upload" ondragover="allowDrop(event)"ondragenter="highlightDropArea()" ' +
+                                            'ondragleave="unhighlightDropArea()" ' +
+                                            'ondrop="handleDrop(event)" >' +
+
+                                            '<ion-icon class="create-document-icon" name="cloud-upload-outline"></ion-icon>' +
+                                            '<span>이 곳에 파일을 드래그 하세요. 또는<span>' +
+                                            '<label id="create-fileSelected-label" for="fileInput">파일선택</label> (변경시 기존파일 삭제)' +
+                                            '<input type="file" name="reupfiles" class="create-fileSelected" id="fileInput" onchange="handleFileSelect(event)" title="파일선택" multiple="multiple" accept="undfined">' +
+                                            '</span>' +
+                                            '</span>' +
+                                        '</div>' +
+                                        '<ui class="createLectureMaterials-file-upload-wrap">' +
+                                        '</ui>' +
+                                    '</div>' +
+                                '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td class="td1 test-up">내용</td>' +
+                                '<td><textarea class="td2" id="create-board-content" name="communityBoardContent" id="" cols="30" rows="10">'+ board.communityBoardContent +'</textarea></td>' +
+                            '</tr>' +
+                        '</table>' +
+                        '<div class="form-button-all">' +
+                            '<button class="form-button1" type="submit">등록</button>' +
+                            '<button class="form-button2" onclick="backCreateBo()">취소</button>' +
+                        '</div>' +
+                    '</form>' +
+                '</div>' 
+                document.querySelector(".communityList-container-box").innerHTML = str;
+
+        },
+        error: function() {
+            console.log("실패")
+        }
+    })
+}
+
+// 게시글 작성, 수정에서 취소버튼
+function backCreateBo(){
+    //event.preventDefault(); // 이벤트의 기본 동작을 막음 (create.bo가 실행되는 이슈)
+    document.querySelector(".communityList-container-box").innerHTML = '';
+
+    // 현재 선택된 커뮤니티 글 다시 불러오기
+    let currentListNo = document.querySelector(".currentList").getAttribute("name");
+    selectCommunityBoardList(currentListNo, 1);
+}
 
 

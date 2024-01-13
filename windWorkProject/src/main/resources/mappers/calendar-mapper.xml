@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="calendarMapper">
+	<resultMap type="Calendar" id="calendarResult">
+		<result column="CALENDAR_LIST_NO" property="calendarListNo" />
+		<result column="RESERVATION_NO" property="reservationNo" />
+		<result column="EMP_NO" property="empNo" />
+		<result column="CALENDAR_NAME" property="calendarName" />
+		<result column="CALENDAR_CONTENT" property="calendarContent" />
+		<result column="CALENDAR_CATEGORY" property="calendarCategory" />
+		<result column="START_TIME" property="startTime" />
+		<result column="END_TIME" property="endTime" />
+	</resultMap>
+
+	<!-- 일정 등록 -->
+	<insert id="insertCalendar">
+		INSERT INTO CALENDAR
+					(
+					CALENDAR_LIST_NO,
+					EMP_NO,
+					CALENDAR_NAME,
+					CALENDAR_CONTENT,
+					CALENDAR_CATEGORY,
+					START_TIME,
+					END_TIME
+					)
+			VALUES
+					(
+					SEQ_CALNO.NEXTVAL,
+					#{empNo},
+					#{calendarName},
+					#{calendarContent},
+					#{calendarCategory},
+					#{startTime},
+					#{endTime}
+					)
+	</insert>
+	
+	<!-- 일정 조회 -->
+	<select id="selectCalendar" resultMap="calendarResult">
+		SELECT CALENDAR_LIST_NO,
+		       RESERVATION.RESERVATION_NO,
+		       CALENDAR.EMP_NO,
+		       CALENDAR_NAME,
+		       CALENDAR_CONTENT,
+		       CALENDAR_CATEGORY,
+		       START_TIME,
+		       END_TIME
+		  FROM CALENDAR
+     LEFT JOIN RESERVATION ON CALENDAR.RESERVATION_NO = RESERVATION.RESERVATION_NO
+     	 WHERE CALENDAR.EMP_NO = #{empNo}
+     	   AND (START_TIME BETWEEN #{startTime} AND #{endTime})
+		   AND (END_TIME BETWEEN #{startTime} AND #{endTime})
+	</select>
+	
+	<!-- 일정 수정 -->
+	<update id="updateCalendar">
+		UPDATE CALENDAR
+		   SET CALENDAR_NAME = #{calendarName},
+		       CALENDAR_CONTENT = #{calendarContent},
+		       CALENDAR_CATEGORY = #{calendarCategory},
+		       START_TIME = #{startTime},
+		       END_TIME = #{endTime}
+		 WHERE CALENDAR_LIST_NO = #{calendarListNo}
+	</update>
+	
+	<!-- 일정 삭제 -->
+	<delete id="deleteCalendar">
+		DELETE FROM CALENDAR
+		 WHERE CALENDAR_LIST_NO = #{calendarListNo}
+	</delete>
+
+</mapper>

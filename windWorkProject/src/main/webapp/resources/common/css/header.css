@@ -36,8 +36,8 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1px solid rgb(85, 175, 130);
-    background: rgb(85, 175, 130);
+    border: 1px solid rgb(255, 255, 255);
+    background: rgb(255, 255, 255);
     position: relative;
 }
 
@@ -54,7 +54,7 @@
 }
 
 
-.notifications-person {
+/* .notifications-person {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -62,7 +62,7 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-}
+} */
 
 
 .right-section-userinfo {
@@ -77,6 +77,7 @@
     right: 20px;
     background-color: #55AF821A;
     position: absolute;
+    z-index: 3;
 
 
 }
@@ -90,7 +91,7 @@
     right: 20px;
     background-color: rgb(254, 254, 254);
     position: absolute;
-
+    z-index: 3;
 
 }
 

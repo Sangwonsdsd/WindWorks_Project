@@ -14,17 +14,10 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Notice</title>
 </head>
-<body>
+<body onload="noticeOnload()">
 <jsp:include page="../common/header.jsp" />
-	<c:if test="${!empty alertMsg}">
-		<script>
-			swal("", "${alertMsg}", "success");
-			/* alertify.alert('알림', "${alertMsg}"); */
-		</script>
-		<c:remove var="alertMsg" scope="session" />
-	</c:if>
 	
 	<div class="menu">
 		<div class="notice-area">
@@ -32,18 +25,7 @@
 			
 			<!-- 작성하기 버튼 -->
 			<div class="notice-write-top">
-			
-				<c:choose>
-					<c:when test="${loginUser.deptCode ne 'D5'}">
-						<div class="notice-write">
-							<button class="notice-write-btn" type="button" onclick="location.href='enrollForm.no'">작성하기</button>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div style="height: 54px;"></div>
-					</c:otherwise>
-				</c:choose>
-				
+				<button class="notice-write-btn" type="button" onclick="location.href='enrollForm.no'">작성하기</button>
 			</div>
 				
 			<!-- 공지사항 리스트 -->
@@ -65,11 +47,7 @@
 								<td>
 									<div class="notice-title">
 									${n.noticeTitle}
-										<c:if test="${not empty n.noticeOriginName}">
-											<div class="notice-attachment-icon">
-												<ion-icon class="attachment-icon" name="document-attach-outline"></ion-icon>
-											</div>
-										</c:if>
+										
 										<div class="notice-reply-count">
 											<span id="rcount"><!-- 댓글갯수 --></span>
 										</div>
@@ -98,8 +76,16 @@
 					</c:choose>
 					
 					<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
-						<li class="page-item"><a class="page-link" href="list.no?cpage=${p}">${p}</a></li>
+						<c:choose>
+							<c:when test="${p eq pi.currentPage}">
+								<li class="page-item active"><a class="page-link" href="list.no?cpage=${p}">${p}</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item"><a class="page-link" href="list.no?cpage=${p}">${p}</a></li>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
+
 					
 					<c:choose>
 						<c:when test="${pi.currentPage eq pi.maxPage}">
@@ -112,14 +98,6 @@
 					
 				</ul>
 			</div>
-			
-			<script>
-			
-
-
-			</script>
-			
-			
 			
 		</div>
 	</div>

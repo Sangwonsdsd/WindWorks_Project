@@ -37,7 +37,7 @@ const noticeDetailViewController ={
             url: "rupdate.no",
             data,
             success: function(result){
-                console.log(data.noticeNo)
+                swal("", "댓글이 수정되었습니다.", "success");
                 selectReplyList(data.noticeNo);
             },
             error: function(){
@@ -52,7 +52,10 @@ const noticeDetailViewController ={
             url: "rdelete.no",
             data,
             success: function(result){
+                swal("", "댓글이 삭제되었습니다.", "success");
+					
                 selectReplyList(data.noticeNo);
+
             },
             error: function(){
                 console.log("rdelete.no ajax통신 실패");
@@ -83,6 +86,7 @@ const noticeDetailViewController ={
             url: "crupdate.no",
             data,
             success: function(result){
+                swal("", "답글이 수정되었습니다.", "success");
                 selectReplyList(data.noticeNo);
             },
             error: function(){
@@ -97,6 +101,7 @@ const noticeDetailViewController ={
             url: "crdelete.no",
             data,
             success: function(result){
+                swal("", "답글이 삭제되었습니다.", "success");
                 selectReplyList(data.noticeNo);
             },
             error: function(){

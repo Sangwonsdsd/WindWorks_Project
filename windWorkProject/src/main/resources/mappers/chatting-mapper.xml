@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="chattingMapper">
+ 
+	<resultMap type="ChattingRoom" id="ChattingRoomResult">
+ 		<result column="CHAT_ROOM_NO" property="chatRoomNo" />
+ 		<result column="CHAT_ROOM_LEVEL" property="chatRoomLevel" />
+ 		<result column="CHAT_ROOM_LASTMSG_DATE" property="chatRoomLastmsgDate" />
+ 		<result column="CHAT_ROOM_STATUS" property="chatRoomStatus" />
+	</resultMap>
+	
+	<resultMap type="ChattingGroup" id="ChattingGroupResult">
+ 		<result column="CHATTING_GROUP_NO" property="chattingGroupNo" />
+ 		<result column="CHAT_ROOM_NO" property="chatRoomNo" />
+ 		<result column="EMP_NO" property="empNo" />
+	</resultMap>
+	
+	<resultMap type="ChattingMessage" id="ChattingMessageResult">
+ 		<result column="CHAT_MSG_NO" property="chatMsgNo" />
+ 		<result column="CHAT_ROOM_NO" property="chatRoomNo" />
+ 		<result column="EMP_NO" property="empNo" />
+ 		<result column="EMP_NAME" property="empName" />
+ 		<result column="CHAT_MSG_CONTENT" property="chatMsgContent" />
+ 		<result column="CHAT_MSG_DATE" property="chatMsgDate" />
+ 		<result column="READ_CHECK" property="readCheck" />
+ 		<result column="JOB_NAME" property="jobName" />
+ 	</resultMap>
+ 		
+ 	<resultMap type="Department" id="DepartmentResult">
+ 		<result column="DEPT_CODE" property="deptCode" />
+ 		<result column="DEPT_NAME" property="deptName" />	
+	</resultMap>
+	
+	<resultMap type="Employee" id="employeeResult">
+		<result column="EMP_NO" property="empNo"/>
+		<result column="EMP_NAME" property="empName"/>
+		<result column="JOB_CODE" property="jobCode"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="DEPT_CODE" property="deptCode"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="EMP_ONLINE_STATUS" property="empOnlineStatus"/>
+		<result column="PROFILE_FILE_PATH" property="profileFilePath"/>
+		
+		<result column="CHAT_ROOM_NO" property="chatRoomNo" />
+		
+	</resultMap>
+ 	
+	<!-- 전부서 리스트 조회 -->
+ 	<select id="selectDeptList" resultMap="DepartmentResult">
+ 		SELECT DEPT_CODE, DEPT_NAME
+ 		FROM DEPARTMENT
+ 		ORDER BY DEPT_CODE
+ 	</select>
+ 	
+ 	<!-- 전직원 리스트 조회 -->
+ 	<select id="selectEmpList" resultMap="employeeResult">
+ 		SELECT EMP_NO, EMP_NAME, JOB_CODE, JOB_NAME, DEPT_CODE, EMP_ONLINE_STATUS, PROFILE_FILE_PATH
+		FROM EMPLOYEE
+			JOIN JOB USING(JOB_CODE)
+		WHERE EMP_STATUS = 1
+		ORDER BY DEPT_CODE, JOB_CODE, EMP_NAME
+ 	</select>
+ 	
+ 	<!-- 내 채팅방 리스트 조회 -->
+ 	<select id="myChatRoomList" resultMap="ChattingRoomResult">
+	 	SELECT CHAT_ROOM_NO, CHAT_ROOM_LEVEL, CHAT_ROOM_LASTMSG_DATE
+		FROM CHATTING_GROUP
+		JOIN CHATTING_ROOM USING (CHAT_ROOM_NO)
+		WHERE EMP_NO = #{empNo} AND CHAT_ROOM_STATUS = 'Y'
+		ORDER BY CHAT_ROOM_LASTMSG_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 대화 상대 리스트 조회 -->
+ 	<select id="selectChatTarget" resultMap="employeeResult">
+	 	SELECT CHAT_ROOM_NO, CHAT_ROOM_LEVEL, EMP_NO, EMP_NAME, JOB_NAME, PROFILE_FILE_PATH 
+		FROM CHATTING_GROUP
+		JOIN EMPLOYEE USING (EMP_NO)
+		JOIN CHATTING_ROOM USING (CHAT_ROOM_NO)
+		JOIN JOB USING (JOB_CODE)
+		WHERE CHAT_ROOM_NO = #{chatRoomNo} AND EMP_NO != #{empNo}  AND CHAT_ROOM_STATUS = 'Y'
+		ORDER BY EMP_NAME
+ 	</select>
+ 	
+ 	<!-- 마지막 메세지 조회 -->
+ 	<select id="selectLastMsg" resultType="string">
+	 	SELECT CHAT_MSG_CONTENT
+		FROM (
+		    SELECT CHAT_MSG_CONTENT
+		    FROM CHATTING_MESSAGE
+		    WHERE CHAT_ROOM_NO = #{roomNo}
+		    ORDER BY CHAT_MSG_NO DESC
+			)
+		WHERE ROWNUM &lt;= 1
+	</select>
+	
+	<!-- 안읽은 메세지 카운트 -->
+	<select id="noReadCount" resultType="_int">
+	 	SELECT COUNT(*)
+		FROM CHATTING_MSG_READ
+		WHERE ISREAD = 'N'
+		    AND CHAT_ROOM_NO = #{chatRoomNo}
+		    AND EMP_NO = #{empNo}
+	</select>
+	
+	<!-- 메세지 리스트 조회 -->
+	<select id="selectMsgList" resultMap="ChattingMessageResult">
+		SELECT CHAT_MSG_NO, 
+				EMP_NO, 
+				EMP_NAME,
+				JOB_NAME,
+				CHAT_MSG_CONTENT, 
+				TO_CHAR(CHAT_MSG_DATE, 'YY.MM.DD HH24:MI') AS "CHAT_MSG_DATE"
+		FROM CHATTING_MESSAGE
+			JOIN EMPLOYEE USING (EMP_NO)
+			JOIN JOB USING (JOB_CODE)
+		WHERE CHAT_ROOM_NO = #{roomNo}
+		ORDER BY CHAT_MSG_NO
+	</select>
+	
+	<!-- 중복방 조회 (개인) -->
+	<select id="duplicateCheck" resultMap="ChattingGroupResult">
+		SELECT EMP_NO, CHAT_ROOM_NO
+		FROM CHATTING_GROUP
+		WHERE CHAT_ROOM_NO IN (SELECT CHAT_ROOM_NO
+		                        FROM CHATTING_GROUP
+		                        JOIN CHATTING_ROOM USING (CHAT_ROOM_NO)
+		                        WHERE CHAT_ROOM_LEVEL = 0 
+		                        		AND CHAT_ROOM_STATUS = 'Y'
+		                        		AND EMP_NO = #{empNo})
+		            AND EMP_NO != #{empNo}
+	</select>
+ 
+ 	<!-- 채팅방 만들기 -->
+ 	<insert id="createChatRoom">
+ 		INSERT INTO CHATTING_ROOM (
+ 				CHAT_ROOM_NO,
+ 				CHAT_ROOM_LEVEL
+ 				) 
+		VALUES (
+				SEQ_CHRNO.NEXTVAL,
+				#{chatLevel}
+				)
+	</insert>
+	
+	<!-- 채팅방 만들기 -->
+ 	<insert id="createChatGroup">
+ 		INSERT INTO CHATTING_GROUP (
+ 				CHATTING_GROUP_NO,
+ 				CHAT_ROOM_NO,
+ 				EMP_NO
+ 				) 
+		VALUES (
+				SEQ_CHGNO.NEXTVAL,
+				SEQ_CHRNO.CURRVAL,
+				#{empNo}
+				)
+	</insert>
+	
+	<!-- 메세지 저장 -->
+ 	<insert id="insertMsg">
+ 		INSERT INTO CHATTING_MESSAGE (
+ 				CHAT_MSG_NO,
+ 				CHAT_ROOM_NO,
+ 				EMP_NO,
+ 				CHAT_MSG_CONTENT,
+ 				CHAT_MSG_DATE
+ 				) 
+		VALUES (
+				SEQ_CHMNO.NEXTVAL,
+				#{chatRoomNo},
+				#{empNo},
+				#{chatMsgContent},
+				SYSDATE
+				)
+	</insert>
+	
+	<!-- 채팅방 레벨 조회 -->
+	<select id="selectChatRoomLevel" resultType="_int">
+		SELECT CHAT_ROOM_LEVEL
+		FROM CHATTING_ROOM
+		WHERE CHAT_ROOM_NO = #{roomNo}
+	</select>
+	
+	<!-- 읽음체크 추가 -->
+ 	<insert id="insertMsgRead">
+ 		INSERT INTO CHATTING_MSG_READ (
+ 				MSG_READ_NO,
+ 				CHAT_ROOM_NO,
+ 				CHAT_MSG_NO,
+ 				EMP_NO
+ 				) 
+		VALUES (
+				SEQ_CHMRNO.NEXTVAL,
+				#{chatRoomNo},
+				SEQ_CHMNO.CURRVAL,	
+				#{empNo}
+				)
+	</insert>
+	
+	<!-- 읽음 처리 -->
+ 	<update id="updateMsgIsRead">
+ 		UPDATE CHATTING_MSG_READ
+ 			SET ISREAD = 'Y'
+ 		WHERE CHAT_ROOM_NO = #{chatRoomNo}
+ 				AND EMP_NO = #{empNo}
+ 	</update>
+ 	
+ 	<!-- 홈 : 안읽은 채팅 카운트 -->
+ 	<select id="selectnoReadChatCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM CHATTING_MSG_READ
+		WHERE ISREAD = 'N'
+		    AND EMP_NO = #{empNo}
+	</select>
+ 
+ 
+ 
+ 
+ 
+ 
+ </mapper>

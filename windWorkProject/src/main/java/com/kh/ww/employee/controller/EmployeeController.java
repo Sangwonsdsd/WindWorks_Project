@@ -3,17 +3,20 @@ package com.kh.ww.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +24,7 @@ import com.kh.ww.common.model.vo.PageInfo;
 import com.kh.ww.common.template.Pagenation;
 import com.kh.ww.employee.model.service.EmployeeService;
 import com.kh.ww.employee.model.vo.Employee;
+import com.kh.ww.employee.model.vo.SendSMS;
 
 @Controller
 public class EmployeeController {
@@ -61,20 +65,22 @@ public class EmployeeController {
 			session.setAttribute("alertMsg", "성공적으로 회원가입이 완료되었습니다.");
 			return "redirect:/";
 		} else {
-			model.addAttribute("errorMsg", "회원가입 실패");
-			return "common/errorPage";
+			session.setAttribute("alertMsg", "회원가입 실패");
+			return "memberInsertForm";
 		}
 	}
 	
 	//로그인
 	@RequestMapping("/login.em")
 	public ModelAndView loginMember(Employee e, ModelAndView mv, HttpSession session) {
-		Employee loginUser = employeeService.loginEmployee(e); //아이디로만 맴버 객체 가져오기
-
+		Employee loginUser = employeeService.loginEmployee(e); //아이디로만 맴버 객체 가져오기 
 		if(loginUser == null || !bcryptPasswordEncoder.matches(e.getEmpPwd(), loginUser.getEmpPwd())) { //로그인실패 => 에러문구를 requsetScope에 담고 에러페이지 포워딩
-			mv.addObject("error", "로그인 실패");
-			mv.setViewName("common/login");
+			session.setAttribute("alertMsg", "로그인 실패");
+			mv.setViewName("redirect:/");
 		}else {
+			// 온라인 상태로 바꿔주기
+			int result = employeeService.updateOnline(loginUser);
+			session.setAttribute("alertMsg", "로그인 성공");
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/");
 		}
@@ -85,6 +91,9 @@ public class EmployeeController {
 	@RequestMapping("/logout.em")
 	public ModelAndView logoutMember(ModelAndView mv, HttpSession session) {
 		//session.invalidate();
+		// 오프라인 상태로 바꿔주기
+		Employee e = (Employee)session.getAttribute("loginUser");
+		int result = employeeService.updateOffline(e);
 		session.removeAttribute("loginUser");
 		mv.setViewName("redirect:/");
 		return mv;
@@ -99,7 +108,7 @@ public class EmployeeController {
 			ModelAndView mv) {
 
 		PageInfo pi = Pagenation.getPageInfo(employeeService.selectListCount(), currentPage, 3, 16);
-
+		
 		mv.addObject("pi",pi)
 		  .addObject("sorting", sorting)
 		  .addObject("condition", condition)
@@ -151,7 +160,7 @@ public class EmployeeController {
 		return "common/myPage";
 	}
 	
-	//아이디 비번찾기
+	//아이디 비번찾기 페이지 이동
 	@RequestMapping("/idPwdFindForm.em")
 	public String idPwdFindForm() {
 		return "common/empIDPWDFind";
@@ -187,4 +196,132 @@ public class EmployeeController {
 		}
 	      return changeName;
 	}
+	
+	// 오프라인 상태로 변경
+	@ResponseBody
+	@RequestMapping(value="changeOffline.emp")
+	public String updateOffline(Employee e) {
+		return employeeService.updateOffline(e) > 0 ? "success" : "fail";
+	}
+	
+	// 온라인 상태로 변경
+	@ResponseBody
+	@RequestMapping(value="changeOnline.emp")
+	public String updateOnline(Employee e) {
+		return employeeService.updateOnline(e) > 0 ? "success" : "fail";
+	}
+	
+	// 자리비움 상태로 변경
+	@ResponseBody
+	@RequestMapping(value="changeAway.emp")
+	public String updateAway(Employee e) {
+		return employeeService.updateAway(e) > 0 ? "success" : "fail";
+	}
+	
+	// 아이디찾기 문자인증
+	@ResponseBody
+	@RequestMapping(value="sendSMS.em")
+	public String sendSMS(SendSMS sms) {
+		
+		int randomNumber = (int)((Math.random()* (9999 - 1000 + 1)) + 1000); // 난수 생성
+		employeeService.certifiedPhoneNumber(sms, randomNumber);
+		
+		return "ok";
+	}
+
+	// 문자인증 완료시 아이디 찾기
+	@ResponseBody
+	@RequestMapping(value="findId.em")
+	public String findId(SendSMS sms) {
+		System.out.println(sms);
+		int result = employeeService.checkConfirmNo(sms);
+		
+		if(result > 0) {
+			if(employeeService.selectfindId(sms) != null) {
+				return (employeeService.selectfindId(sms)).getEmpEmail();
+			}
+		}
+		
+//			Employee e1 = employeeService.selectfindId(sms);
+//			if(e1 != null) {
+//				String userEmail = e1.getEmpEmail();
+//				return userEmail;
+//			}
+			
+		return "fail";
+	}
+	
+	// 비밀번호 찾기 아이디 존재여부 확인
+	@ResponseBody
+	@RequestMapping(value="checkEmail.em")
+	public String checkEmail(String empEmail) {
+		return employeeService.checkEmail(empEmail) > 0 ? "success" : "fail";
+	}
+	
+	// 비밀번호 찾기 문자인증 완료시 새로운 비밀번호 입력
+	@ResponseBody
+	@RequestMapping(value="confirmNumberPwd.em")
+	public String confirmNumberPwd(SendSMS sms) {
+		return employeeService.checkConfirmNo(sms) > 0 ? "success" : "fail";
+	}
+	
+	// 새로운 비밀번호 변경
+	@ResponseBody
+	@RequestMapping(value="updateNewPwd.em")
+	public String updateNewPwd(Employee e) {
+		String encPwd = bcryptPasswordEncoder.encode(e.getEmpPwd());
+		System.out.println(encPwd);
+		e.setEmpPwd(encPwd);
+		
+		int result = employeeService.updateNewPwd(e);
+		
+		if (result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+	// 비밀번호 변경
+	@ResponseBody
+	@RequestMapping(value="ajaxPasswordChange.emp")
+	public String ajaxPasswordChange(Employee e) {
+		Employee loginUser = employeeService.loginEmployee(e); //아이디로만 맴버 객체 가져오기
+		System.out.println(loginUser);
+		if(loginUser == null || !bcryptPasswordEncoder.matches(e.getEmpPwd(), loginUser.getEmpPwd())) { 
+			return "failPassword";
+		}else {
+			String encPwd = bcryptPasswordEncoder.encode(e.getNewPassword());
+			e.setNewPassword(encPwd);
+			System.out.println(encPwd);
+			return employeeService.updatePassword(e) > 0 ? "success" : "fail";
+		}
+		
+	}
+	
+	// 출근
+	@ResponseBody
+	@RequestMapping(value="statusWork.ho")
+	public String statusWork(int empNo) {
+		return employeeService.statusWork(empNo) > 0 ? "success" : "fail";
+	}
+	
+	// 퇴근
+	@ResponseBody
+	@RequestMapping(value="statusLeave.ho")
+	public String statusLeave(int empNo) {
+		return employeeService.statusLeave(empNo) > 0 ? "success" : "fail";
+	}
+	
+	// 출퇴근상태확인
+	@ResponseBody
+	@RequestMapping(value="selectStatus.ho")
+	public int selectStatus(HttpSession session) {
+		Employee e = (Employee)session.getAttribute("loginUser");
+		return employeeService.selectStatus(e.getEmpNo());
+	}
+	
 }
+
+
+

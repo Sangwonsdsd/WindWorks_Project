@@ -8,10 +8,13 @@
 <!-- CSS -->
 <link rel="stylesheet" href="resources/notice/css/notice-enroll-form.css">
 
+<!-- JS -->
+<script src="resources/notice/js/notice-enroll-form.js"></script>
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Enroll Notice</title>
 </head>
-<body>
+<body onload="noticeOnload()">
 <jsp:include page="../common/header.jsp" />
 
 	<div class="menu">
@@ -37,20 +40,26 @@
 							<tr>
 		                        <th><label>파일첨부</label></th>
 		                        <td>
-			                        <label for="upfile" class="notice-enroll-file">
-			                        	<!-- <ion-icon class="notice-enroll-file-icon" name="document-attach-outline"></ion-icon>
-			                        	첨부할 파일을 선택해주세요 -->
-			                        	<input type="file" id="upfile" name="upfile" value="noticeOriginName">
-			                        </label>
+			                        <div class="createLectureMaterials-file-upload-box" id="drop-area">
+                                        <div class="createLectureMaterials-file-upload" ondragover="allowDrop(event)" ondragenter="highlightDropArea()"
+											ondragleave="unhighlightDropArea()" ondrop="handleDrop(event)">
+			                        		
+			                        		<ion-icon class="create-document-icon" name="cloud-upload-outline"></ion-icon>
+			                        		<label id="create-fileSelected-label" for="upfile">파일 선택</label>
+                                            <input type="file" name="upfile" id="upfile" class="create-fileSelected"  onchange="handleFileSelect(event)" title="파일선택" multiple="multiple" accept="undfined">
+                                            </span>
+                                            </span>
+			                        
+			                        	</div>
+                                        <ui class="createLectureMaterials-file-upload-wrap"></ui>
+                                    </div>
 		                        </td>
 		                    </tr>
 		                    <tr>
 		                        <th><label for="content">내용</label></th>
-		                        <td><textarea id="content" class="notice-enroll-content" rows="12" style="resize:none;" name="noticeContent" required></textarea></td>
+		                        <td><textarea id="content" class="notice-enroll-content" rows="12" style="resize:none;" name="noticeContent" spellcheck="false" required></textarea></td>
 		                    </tr>
 						</table>
-						
-
 						
 						<!-- 등록,취소 버튼 -->
 						<div class="notice-enroll-btn">
@@ -62,11 +71,12 @@
 				</div>
 			</div>
 			
-		
-			
-		</div>
-	</div>
-
+		</div><!-- <div class="notice-enroll-area"> -->
+	</div><!-- <div class="menu"> -->
+	
+	<script>
+	
+	</script>
 
 </body>
 </html>

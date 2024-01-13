@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>커뮤니티</title>
+<title>Community</title>
 
 <!-- 부트스트랩 -->
 <!-- Latest compiled and minified CSS -->
@@ -106,7 +106,7 @@
                 },
                 success: function(res){
 					if(res == "success"){
-						alert("등록 완료")
+						swal("등록 완료")
 						$('#modal-Name').val("");
                 		$("#modal-point").val("");
 						myCommunityList();
@@ -175,7 +175,7 @@
 				},
 				success: function (res) {
 					if(res == "success"){
-							alert("수정 완료")
+						swal("수정 완료")
 							myCommunityList();
 							selectCommunityMemberList(document.querySelector('#select-com-no-').value)
 						} else {
@@ -190,15 +190,21 @@
 
 		// 커뮤 삭제
 		function daleteCom(){
-			if(window.confirm("※주의※ 삭제 후 복구할 수 없습니다.")){
-				$.ajax({
+
+			swal({
+				text : "※주의※ 삭제 후 복구할 수 없습니다.",
+				buttons: ["취소" , "획인"]
+			})
+			.then(function(result){
+				
+				if(result){
+					$.ajax({
 					url: "delete.com",
 					data: {
 						comNo: document.querySelector('#select-com-no-').value,
 					},
 					success: function (res) {
 						if(res == "success"){
-								alert("삭제 완료")
 								myCommunityList(function (startList) {
 									selectCommunityOne(startList);
 								});
@@ -210,7 +216,9 @@
 						console.log("실패");
 					}
 				});
-			}
+				}
+				
+			})
 		}
 
 
@@ -272,7 +280,7 @@
 					},
 					success: function (res) {
 						if(res == "success"){
-								alert("등록 완료")
+								swal("등록 완료")
 								document.querySelector('#modal-reReply-content').value = "";
 								selectBoard(bno)	
 							} else {
@@ -346,7 +354,7 @@
 					},
 					success: function (res) {
 						if(res == "success"){
-								alert("수정 완료")
+							swal("수정 완료")
 								// document.querySelector('#modal-reReply-content').value = "";
 								selectBoard(bno)
 							} else {
@@ -371,6 +379,9 @@
 			myCommunityList(function (startList) {
 				selectCommunityOne(startList);
 			});
+			
+			document.querySelector("#nav-com-bar").classList.add('active');
+			document.querySelector("#navbar").style.background = 'rgb(85, 175, 130)';
 		}
 	</script>
 

@@ -15,11 +15,11 @@ import lombok.ToString;
 @ToString
 public class NoticeReply {
 	private int noticeReplyNo;
+	private int noticeNo;
+	private int parentReplyNo;
 	private String noticeReplyContent;
 	private String noticeReplyCreateDate;
 	private String noticeReplyStatus;
 	private int empNo;
 	private String empName;
-	private int noticeNo;
-	private int parentReplyNo;
 }

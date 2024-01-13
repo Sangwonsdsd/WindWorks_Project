@@ -23,7 +23,6 @@
  		<result column="COMMUNITY_BOARD_CREATE_DATE" property="communityBoardCreateDate" />
  		<result column="COMMUNITY_BOARD_STATUS" property="communityBoardStatus" />
  		<result column="COMMUNITY_BOARD_REPLY_COUNT" property="communityBoardReplyCount" />
- 		<result column="COMMUNITY_BOARD_LIKE_COUNT" property="communityBoardLikeCount" />
  		
  		<result column="EMP_NAME" property="empName" />
  		<result column="PROFILE_FILE_PATH" property="profileFilePath" />
@@ -106,7 +105,6 @@
 		    , PROFILE_FILE_PATH
 		    , JOB_NAME
 		    , COMMUNITY_BOARD_REPLY_COUNT
-		    , COMMUNITY_BOARD_LIKE_COUNT
 		FROM COMMUNITY_BOARD
 			JOIN EMPLOYEE USING (EMP_NO)
 			JOIN JOB USING (JOB_CODE)
@@ -126,7 +124,6 @@
 		    , PROFILE_FILE_PATH
 		    , JOB_NAME
 		    , COMMUNITY_BOARD_REPLY_COUNT
-		    , COMMUNITY_BOARD_LIKE_COUNT
 		FROM COMMUNITY_BOARD
 		    JOIN EMPLOYEE USING (EMP_NO)
 		    JOIN JOB USING (JOB_CODE)
@@ -163,7 +160,7 @@
 		    JOIN JOB USING (JOB_CODE)
 		WHERE COMMUNITY_BOARD_NO = #{bno}
 			AND PARENT_REPLY_NO IS NULL
-		ORDER BY COMMUNITY_REPLY_CREATE_DATE
+		ORDER BY COMMUNITY_REPLY_NO
  	</select>
  	
  	<!-- 리리플 리스트 조회 -->
@@ -181,7 +178,7 @@
 		    JOIN JOB USING (JOB_CODE)
 		WHERE COMMUNITY_BOARD_NO = #{bno}
 			AND PARENT_REPLY_NO IS NOT NULL
-		ORDER BY COMMUNITY_REPLY_CREATE_DATE DESC
+		ORDER BY COMMUNITY_REPLY_NO DESC
  	</select>
  	
  	<!-- 댓글 등록 -->
@@ -231,7 +228,6 @@
 			WHERE COMMUNITY_REPLY_NO = #{communityReplyNo}
  	</update>
 
- 	
  	<!-- 전체 커뮤 리스트 조회 -->
  	<select id="communityListAll" resultMap="communityResult">
  		SELECT COMMUNITY_NO, COMMUNITY_NAME, COMMUNITY_POINT, COMMUNITY_STATUS
@@ -367,8 +363,35 @@
  	<delete id="deleteBoardAtt">
 	 	DELETE FROM COMMUNITY_ATTACHMENT
 		WHERE COMMUNITY_FILE_NO = #{fno}
-
  	</delete>
+ 	
+ 	<!-- 게시글 수정 -->
+ 	<update id="comBoardUpdate">
+ 		UPDATE COMMUNITY_BOARD
+		SET COMMUNITY_BOARD_TITLE = #{communityBoardTitle},
+			COMMUNITY_BOARD_CONTENT = #{communityBoardContent}
+			WHERE COMMUNITY_BOARD_NO = #{communityBoardNo}
+ 	</update>
+ 	
+ 	<!-- 첨부파일 수정 -->
+ 	<insert id="comBoardAttUpdate">
+ 		INSERT INTO COMMUNITY_ATTACHMENT(
+                COMMUNITY_FILE_NO,
+                COMMUNITY_BOARD_NO,
+                COMMUNITY_ORIGIN_NAME,
+                COMMUNITY_CHANGE_NAME,
+                COMMUNITY_FILE_PATH,
+                COMMUNITY_FILE_LEVEL
+                )
+	        VALUES(
+	            SEQ_CANO.NEXTVAL,
+	            #{communityBoardNo},
+	            #{communityOriginName},
+	            #{communityChangeName},
+	            #{communityFilePath},
+	            #{communityFileLevel}
+	            )
+ 	</insert>
  	
  	
  	
