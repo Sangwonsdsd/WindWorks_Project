@@ -6,11 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Home</title>
+        <!--alert-->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body onload="mainOnload()" >
 	<c:if test="${ !empty alertMsg }">
                 <script>
-                    alert("${alertMsg}");
+					swal("", "${alertMsg}", "success");
                 </script>
                 <c:remove var="alertMsg" scope="session" />
     </c:if>

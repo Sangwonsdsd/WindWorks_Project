@@ -798,9 +798,9 @@ function showCountdown() {
     }
 }
     //15초마다 재 검색
-    // setInterval(intervalBusSearchBtn, 15000);
+   setInterval(intervalBusSearchBtn, 15000);
 
-    // setInterval(showCountdown, 1000);
+   setInterval(showCountdown, 1000);
 
 function intervalBusSearchBtn() {
     console.log("enter");

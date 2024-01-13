@@ -94,6 +94,8 @@ public class EmployeeController {
 		// 오프라인 상태로 바꿔주기
 		Employee e = (Employee)session.getAttribute("loginUser");
 		int result = employeeService.updateOffline(e);
+
+		session.setAttribute("alertMsg", "로그아웃 성공");
 		session.removeAttribute("loginUser");
 		mv.setViewName("redirect:/");
 		return mv;

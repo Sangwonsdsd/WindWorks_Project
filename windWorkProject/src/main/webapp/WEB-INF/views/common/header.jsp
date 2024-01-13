@@ -27,7 +27,7 @@
         <body id="body-pd">
             <c:if test="${ !empty alertMsg }">
                 <script>
-                    alert("${alertMsg}");
+                    swal("", "${alertMsg}", "success");
                 </script>
                 <c:remove var="alertMsg" scope="session" />
             </c:if>
