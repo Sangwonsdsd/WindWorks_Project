@@ -1,6 +1,6 @@
-# WIND WORKS : 필수적인 기능, 언제 어디서든, 쉽고 효율적으로 사용 할 수 있는 그룹웨어 서비스
+# WIND WORKS
 ![1 메인화면(전체)](https://github.com/Sangwonsdsd/WindWorks_Project/assets/91966029/51ec4fc1-85aa-4898-9764-7deaad617d73)
->
+> 필수적인 기능, 언제 어디서든, 쉽고 효율적으로 사용 할 수 있는 그룹웨어 서비스
 
 ## Contents
   1. 프로젝트 개요 
@@ -69,7 +69,7 @@ $ yarn dev
 ## 주요 기능
 
 ### ✏ 소중한 사람과 **공용 일기장**을 만들어 서로의 일상을 공유할 수 있어요.  
-  <img src="" height="300">
+  <img src="https://github.com/Sangwonsdsd/WindWorks_Project/assets/91966029/4040ee20-59c0-4af6-91ec-95a7f30035ed" height="300">
   <img src="" height="300">
   <img src="" height="300">
   <img src="" height="300">
@@ -106,13 +106,6 @@ $ yarn dev
   + 닉네임, 비밀번호, 일기장 이름 수정 가능
   + 최적화된 활동 추천을 위한 관심 분야 설정 가능
   + 연결 끊기, 회원 탈퇴 가능
-
-## 부가 기능
-
-* 소셜 로그인 (카카오)
-* 반응형 웹 디자인
-* react-error-boundary 사용하여 폴백 UI로 에러 화면 구성
-* 전역 style 정의하여 라이트/다크 모드 구현
 
 ## 팀원 소개
 
