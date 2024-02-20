@@ -42,7 +42,7 @@
 
 ## 주요 기능
 
-![주요기능](https://github.com/Sangwonsdsd/WindWorks_Project/assets/91966029/67ff8bf0-efb9-4bad-a80b-f3f7a39a24b4)
+![WindsWorks 프로젝트_24](https://github.com/Sangwonsdsd/WindWorks_Project/assets/91966029/da7db1ff-d65c-43f1-8950-451f39d08b4b)
 
 ## 팀원 소개
 
