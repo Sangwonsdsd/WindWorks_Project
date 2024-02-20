@@ -16,11 +16,11 @@
 4. 다양한 API 활용(날씨, KaKao map, ChatGPT, 파파고 번역기, 버스, FullCalender, Google캘린더, Google 메일)
 5. 권한이 승인된 아이디만 로그인 가능
 
-## 팀원 소개
+## 개발환경 및 API
 
-|제목|설명|
+|사용|설명|
 |:---|:---:|
-|FrameWork/ Library|: Google(캘린더, 메일), FullCalender(캘린더), 파파고 번역기 API, 공공데이터(날씨 API, 버스 API), 카카오 주소(API), ChatGPT API, Summernote누리고(문자인증)API|
+|FrameWork/ Library|: Google(캘린더, 메일), FullCalender(캘린더), 파파고 번역기 API, 공공데이터(날씨 API, 버스 API), 카카오 주소(API), ChatGPT API, Summernote누리고(문자인증)API, WebSoket Server API, Bootstrap, Oracle JDBC|
 |DB|Oracle|
 |Tool|Eclipse, Visual studio Code, Sts3|
 |WAS|Apache Tomcat|
